@@ -39,3 +39,6 @@ build/
 
 ### API ###
 api.env
+
+### CSV ###
+nytimes_articles_v1.csv
