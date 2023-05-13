@@ -13,7 +13,7 @@ public class App {
 
         String baseUrl = "https://content.guardianapis.com/search";
 
-        String API_KEY = System.getenv("API_KEY");
+        String API_KEY = "";
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a topic: ");
@@ -51,7 +51,7 @@ public class App {
         conn.disconnect();
 
         // Get an article's list
-        System.out.println(content);
+        // System.out.println(content);
 
         ObjectMapper mapper = new ObjectMapper();
         Root root = mapper.readValue(content.toString(), Root.class);
