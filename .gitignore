@@ -39,3 +39,9 @@ build/
 
 ### API ###
 api.env
+
+
+# Data
+*.json
+*.csv
+*.xml

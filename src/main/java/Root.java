@@ -1,4 +1,4 @@
-public class Root {
+public class Root<Response> {
     private Response response;
 
     public Response getResponse() {
