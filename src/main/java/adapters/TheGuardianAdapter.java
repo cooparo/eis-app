@@ -1,28 +1,22 @@
 package adapters;
 
-import entities.Article;
-import interfaces.NewsDowloader;
-import java.util.List;
+import models.TheGuardian.TGArticle;
+import models.TheGuardian.TGRoot;
 
-public class TheGuardianAdapter implements NewsDowloader {
-    private final static String BASE_URL = "https://content.guardianapis.com/search";
-    private final String API_KEY;
+public class TheGuardianAdapter implements interfaces.IArticle {
+    private final TGArticle article;
 
-    TheGuardianAdapter(String API_KEY) {
-        this.API_KEY = API_KEY;
-    }
-
-    private String getUrl(String keyword) {
-        return BASE_URL + "?q=" + keyword + "&api-key=" + API_KEY;
+    public TheGuardianAdapter(TGArticle article) {
+        this.article = article;
     }
 
     @Override
-    public List<Article> getArticles(String keyword) {
-        return null;
+    public String getTitle() {
+        return article.getWebTitle();
     }
 
     @Override
-    public List<Article> getArticles() {
-        return getArticles("");
+    public String getBody() {
+        return article.getFields().getBodyText();
     }
 }
