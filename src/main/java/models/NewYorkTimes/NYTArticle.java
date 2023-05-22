@@ -11,6 +11,16 @@ public class NYTArticle {
     private String sourceSet;
     private String source;
 
+    public NYTArticle(String identifier, String url, String title, String body, Date date, String sourceSet, String source) {
+        this.identifier = identifier;
+        this.url = url;
+        this.title = title;
+        this.body = body;
+        this.date = date;
+        this.sourceSet = sourceSet;
+        this.source = source;
+    }
+
     public String getIdentifier() {
         return identifier;
     }

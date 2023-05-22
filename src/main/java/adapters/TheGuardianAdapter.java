@@ -1,7 +1,6 @@
 package adapters;
 
 import models.TheGuardian.TGArticle;
-import models.TheGuardian.TGRoot;
 
 public class TheGuardianAdapter implements interfaces.IArticle {
     private final TGArticle article;

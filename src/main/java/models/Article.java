@@ -6,6 +6,14 @@ public class Article {
     private String title;
     private String body;
 
+    public Article(long id, String title, String body) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+
+    public Article() {}
+
     public String getTitle() {
         return title;
     }

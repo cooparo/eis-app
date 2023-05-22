@@ -1,5 +1,7 @@
 package models.TheGuardian;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class TGArticle {
@@ -12,7 +14,7 @@ public class TGArticle {
     private String webUrl;
     private String apiUrl;
     private TGFields TGFields;
-    private boolean isHosted;
+    public boolean isHosted; //FIXME: se lo metto privato viene lanciata un eccezione
     private String pillarId;
     private String pillarName;
 
