@@ -1,14 +1,14 @@
 package repository;
 
-import repository.specifications.Specification;
+import repository.specifications.ISpecification;
 
 import java.util.ArrayList;
 
-public interface Repository<T> {
+public interface IRepository<T> {
     void add(T t);
     ArrayList<T> getAll();
     void update(T oldT, T newT);
     void remove(long id);
-    ArrayList<T> FindBySpecification(Specification spec);
+    ArrayList<T> FindBySpecification(ISpecification spec);
 
 }

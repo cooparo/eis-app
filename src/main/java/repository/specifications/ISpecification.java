@@ -1,6 +1,6 @@
 package repository.specifications;
 
-public interface Specification<T> {
+public interface ISpecification<T> {
 
     boolean exist(T t);
 

@@ -1,12 +1,11 @@
 package repository;
 
 import models.Article;
-import repository.specifications.Specification;
+import repository.specifications.ISpecification;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ArticleRepository implements Repository<Article>{
+public class ArticleRepository implements IRepository<Article> {
 
     private ArrayList<Article> storage;
 
@@ -45,7 +44,7 @@ public class ArticleRepository implements Repository<Article>{
     }
 
     @Override
-    public ArrayList<Article> FindBySpecification(Specification spec) {
+    public ArrayList<Article> FindBySpecification(ISpecification spec) {
         ArrayList<Article> articleArrayList = new ArrayList<>();
 
         for(Article article : storage) {

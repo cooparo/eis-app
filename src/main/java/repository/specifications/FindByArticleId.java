@@ -2,7 +2,7 @@ package repository.specifications;
 
 import models.Article;
 
-public class FindByArticleId implements Specification<Article> {
+public class FindByArticleId implements ISpecification<Article> {
 
     private long id;
 
