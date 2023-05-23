@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class TheGuardianClient {
 
-    private final static String BASE_URL = "http://content.guardianapis.com/search";
+    private final static String BASE_URL = "https://content.guardianapis.com/search";
     private String apiKey;
 
     public TheGuardianClient(String apiKey) {
@@ -27,7 +27,7 @@ public class TheGuardianClient {
 
         URL url;
         try {
-            url = new URL(BASE_URL+"?q="+query+"&pageSize="+articlesNumber+"&api-key="+apiKey); //FIXME: crea meglio l'URL
+            url = new URL(BASE_URL+"?q="+query+"&page-size="+articlesNumber+"&api-key="+apiKey); //FIXME: crea meglio l'URL
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

@@ -9,7 +9,7 @@ public class App {
         final String API_KEY = System.getenv("API_KEY");
         TheGuardianClient client = new TheGuardianClient(API_KEY);
 
-        ArrayList<TGArticle> articles = client.getArticleArrayList("bitcoin", 10);
+        ArrayList<TGArticle> articles = client.getArticleArrayList("bitcoin", 12);
 
         System.out.println("Size: "+articles.size());
         for (TGArticle article : articles) {
