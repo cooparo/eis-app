@@ -2,7 +2,6 @@ package models.TheGuardian;
 
 public class TGResponseWrapper {
     private TGResponse TGResponse;
-
     public TGResponse getResponse() {
         return TGResponse;
     }

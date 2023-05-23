@@ -1,17 +1,20 @@
 package repository.specifications;
 
+import interfaces.ISpecification;
 import models.Article;
+
+import java.util.Objects;
 
 public class FindByArticleId implements ISpecification<Article> {
 
-    private long id;
+    private String id;
 
-    public FindByArticleId(long id) {
+    public FindByArticleId(String id) {
         this.id = id;
     }
 
     @Override
     public boolean exist(Article article) {
-        return article.getId()==this.id;
+        return Objects.equals(article.getId(), this.id);
     }
 }

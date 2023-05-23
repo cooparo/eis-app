@@ -16,7 +16,5 @@ public class App {
             System.out.println(article.getWebTitle());
         }
 
-
-
     }
 }

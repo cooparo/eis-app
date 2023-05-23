@@ -1,7 +1,8 @@
 package repository;
 
+import interfaces.IRepository;
 import models.Article;
-import repository.specifications.ISpecification;
+import interfaces.ISpecification;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,6 @@ public class ArticleRepository implements IRepository<Article> {
     public ArticleRepository() {
         storage = ArticleStorage.getInstance().getArticleList();
     }
-
 
     @Override
     public void add(Article article) {
@@ -35,9 +35,9 @@ public class ArticleRepository implements IRepository<Article> {
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(String id) {
         for(Article article : storage) {
-            if(article.getId() == id) {
+            if(article.getId().equals(id)) {
                 storage.remove(article);
             }
         }

@@ -10,6 +10,11 @@ public class TheGuardianAdapter implements interfaces.IArticle {
     }
 
     @Override
+    public String getId() {
+        return article.getId();
+    }
+
+    @Override
     public String getTitle() {
         return article.getWebTitle();
     }

@@ -1,15 +1,23 @@
 package models;
 
+import interfaces.IArticle;
+
 public class Article {
 
-    long id;
+    String id;
     private String title;
     private String body;
 
-    public Article(long id, String title, String body) {
+    public Article(String id, String title, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
+    }
+
+    public Article(IArticle article) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.body = article.getTitle();
     }
 
     public Article() {}
@@ -26,10 +34,10 @@ public class Article {
     public void setBody(String body) {
         this.body = body;
     }
-    public long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

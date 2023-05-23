@@ -1,6 +1,4 @@
-package repository;
-
-import repository.specifications.ISpecification;
+package interfaces;
 
 import java.util.ArrayList;
 
@@ -8,7 +6,6 @@ public interface IRepository<T> {
     void add(T t);
     ArrayList<T> getAll();
     void update(T oldT, T newT);
-    void remove(long id);
+    void remove(String id);
     ArrayList<T> FindBySpecification(ISpecification spec);
-
 }

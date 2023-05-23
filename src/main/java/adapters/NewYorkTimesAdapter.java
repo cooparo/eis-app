@@ -1,5 +1,6 @@
 package adapters;
 
+import models.Article;
 import models.NewYorkTimes.NYTArticle;
 
 public class NewYorkTimesAdapter implements interfaces.IArticle{
@@ -7,6 +8,11 @@ public class NewYorkTimesAdapter implements interfaces.IArticle{
 
     public NewYorkTimesAdapter(NYTArticle article) {
         this.article = article;
+    }
+
+    @Override
+    public String getId() {
+        return article.getIdentifier();
     }
 
     @Override
