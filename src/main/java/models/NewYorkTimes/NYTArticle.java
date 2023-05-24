@@ -21,6 +21,10 @@ public class NYTArticle {
         this.source = source;
     }
 
+    public NYTArticle() {
+
+    }
+
     public String getIdentifier() {
         return identifier;
     }
