@@ -13,7 +13,7 @@ public class TGArticle {
     private String webTitle;
     private String webUrl;
     private String apiUrl;
-    private TGFields TGFields;
+    private TGFields fields;
     private boolean isHosted;
     private String pillarId;
     private String pillarName;
@@ -83,11 +83,11 @@ public class TGArticle {
     }
 
     public TGFields getFields() {
-        return TGFields;
+        return fields;
     }
 
-    public void setFields(TGFields TGFields) {
-        this.TGFields = TGFields;
+    public void setFields(TGFields fields) {
+        this.fields = fields;
     }
 
     public boolean getIsHosted() {
