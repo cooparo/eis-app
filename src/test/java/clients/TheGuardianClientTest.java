@@ -1,5 +1,6 @@
-package client;
+package clients;
 
+import clients.remote.TheGuardianClient;
 import models.TheGuardian.TGArticle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
