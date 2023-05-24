@@ -1,7 +1,6 @@
 package clients.remote;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import models.TheGuardian.TGArticle;
 import models.TheGuardian.TGResponse;
 import models.TheGuardian.TGResponseWrapper;
