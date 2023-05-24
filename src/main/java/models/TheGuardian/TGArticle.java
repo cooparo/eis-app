@@ -14,7 +14,7 @@ public class TGArticle {
     private String webUrl;
     private String apiUrl;
     private TGFields TGFields;
-    public boolean isHosted; //FIXME: se lo metto privato viene lanciata un eccezione
+    private boolean isHosted;
     private String pillarId;
     private String pillarName;
 
@@ -90,7 +90,7 @@ public class TGArticle {
         this.TGFields = TGFields;
     }
 
-    public boolean isHosted() {
+    public boolean getIsHosted() {
         return isHosted;
     }
 
