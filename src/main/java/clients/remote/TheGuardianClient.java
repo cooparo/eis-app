@@ -1,10 +1,11 @@
-package client;
+package clients.remote;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import models.TheGuardian.TGArticle;
 import models.TheGuardian.TGResponse;
 import models.TheGuardian.TGResponseWrapper;
+import utils.Format;
+import utils.Marshalling;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,14 +56,11 @@ public class TheGuardianClient {
 
         conn.disconnect();
 
-        ObjectMapper mapper = new ObjectMapper();
-
         TGResponseWrapper root;
         try {
-            root = mapper.readValue(content.toString(), TGResponseWrapper.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+            root = Marshalling.deserialise(Format.JSON, content.toString(), TGResponseWrapper.class);
+        } catch (JsonProcessingException e) { throw new RuntimeException(e); }
+
         TGResponse response = root.getResponse();
         ArrayList<TGArticle> TGarticleArrayList = response.getResults();
 

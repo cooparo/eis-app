@@ -13,8 +13,8 @@ public class TGArticle {
     private String webTitle;
     private String webUrl;
     private String apiUrl;
-    private TGFields TGFields;
-    public boolean isHosted; //FIXME: se lo metto privato viene lanciata un eccezione
+    private TGFields fields;
+    private boolean isHosted;
     private String pillarId;
     private String pillarName;
 
@@ -83,14 +83,14 @@ public class TGArticle {
     }
 
     public TGFields getFields() {
-        return TGFields;
+        return fields;
     }
 
-    public void setFields(TGFields TGFields) {
-        this.TGFields = TGFields;
+    public void setFields(TGFields fields) {
+        this.fields = fields;
     }
 
-    public boolean isHosted() {
+    public boolean getIsHosted() {
         return isHosted;
     }
 

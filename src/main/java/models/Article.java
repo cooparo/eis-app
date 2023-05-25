@@ -17,7 +17,7 @@ public class Article {
     public Article(IArticle article) {
         this.id = article.getId();
         this.title = article.getTitle();
-        this.body = article.getTitle();
+        this.body = article.getBody();
     }
 
     public Article() {}
