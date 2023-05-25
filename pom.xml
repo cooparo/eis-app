@@ -6,7 +6,7 @@
 
     <groupId>it.unipd.dei.eis</groupId>
     <artifactId>eis-app</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -61,7 +61,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>${groupId}.eis-app.App</mainClass>
+                            <mainClass>${groupId}.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
