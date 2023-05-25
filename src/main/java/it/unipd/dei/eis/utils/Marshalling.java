@@ -15,7 +15,7 @@ public class Marshalling {
                 return new ObjectMapper();
         }
     }
-    public static <R> R deserialise(Format format, String content, Class<R> type) throws JsonProcessingException {
+    public static <R> R deserialize(Format format, String content, Class<R> type) throws JsonProcessingException {
         ObjectMapper mapper = getMapper(format);
         return mapper.readValue(content, type);
     }

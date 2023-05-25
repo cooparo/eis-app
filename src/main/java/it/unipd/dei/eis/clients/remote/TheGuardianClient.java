@@ -58,7 +58,7 @@ public class TheGuardianClient {
 
         TGResponseWrapper root;
         try {
-            root = Marshalling.deserialise(Format.JSON, content.toString(), TGResponseWrapper.class);
+            root = Marshalling.deserialize(Format.JSON, content.toString(), TGResponseWrapper.class);
         } catch (JsonProcessingException e) { throw new RuntimeException(e); }
 
         TGResponse response = root.getResponse();
