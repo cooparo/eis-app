@@ -3,20 +3,31 @@ package it.unipd.dei.eis.repository;
 import it.unipd.dei.eis.interfaces.IRepository;
 import it.unipd.dei.eis.models.Article;
 import it.unipd.dei.eis.interfaces.ISpecification;
+import it.unipd.dei.eis.utils.Format;
+import it.unipd.dei.eis.utils.IO;
+import it.unipd.dei.eis.utils.Marshalling;
+
+import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ArticleRepository implements IRepository<Article> {
 
-    private ArrayList<Article> storage;
+    private final ArrayList<Article> storage;
+    private final Format fileFormat;
 
     public ArticleRepository() {
+        this(Format.JSON);
+    }
+    public ArticleRepository(Format fileFormat) {
+        this.fileFormat = fileFormat;
         storage = ArticleStorage.getInstance().getArticleList();
     }
 
     @Override
-    public void add(Article article) {
-        storage.add(article);
+    public void add(Article... articles) {
+        storage.addAll(Arrays.asList(articles));
     }
 
     @Override
@@ -52,5 +63,24 @@ public class ArticleRepository implements IRepository<Article> {
         }
 
         return articleArrayList;
+    }
+
+    // PERSISTENCE
+    private static class StorageContainer {
+        private final ArrayList<Article> storage;
+        StorageContainer(ArrayList<Article> storage) { this.storage = storage; }
+        public ArrayList<Article> getStorage() { return storage; }
+    }
+    private String getFilePath() {
+        return "./src/main/resources/storage." + fileFormat.toString().toLowerCase();
+    }
+    public void saveToDisk() throws IOException {
+        String serializedStorage = Marshalling.serialize(fileFormat, new StorageContainer(storage));
+        IO.writeFile(getFilePath(), serializedStorage);
+    }
+    public void loadFromDisk() throws IOException {
+        String serializedStorage = IO.readFile(getFilePath());
+        StorageContainer container = Marshalling.deserialize(fileFormat, serializedStorage, StorageContainer.class);
+        add(container.getStorage().toArray(new Article[0]));
     }
 }
