@@ -5,6 +5,7 @@ import it.unipd.dei.eis.models.TheGuardian.TGArticle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,12 @@ class TheGuardianClientTest {
         int articlesNumber = 20;
 
         // Act
-        ArrayList<TGArticle> articleList = theGuardianClient.getArticleArrayList(query, articlesNumber);
+        ArrayList<TGArticle> articleList = null;
+        try {
+            articleList = theGuardianClient.getArticleArrayList(query, articlesNumber);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Assert
         assertNotNull(articleList);
