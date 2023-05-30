@@ -25,29 +25,6 @@ public class App {
     public static void download() throws IOException {
         TheGuardianReader();
     }
-    public static PriorityQueue<Map.Entry<String, Integer>> rank(String input) {
-        Map<String, Integer> wordFrequencyMap = new HashMap<>();
-
-        // Remove all non-alphabetic characters and split the string into words
-        String[] words = input.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
-
-        // Create a PriorityQueue to sort the words by frequency
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a, b) -> {
-            int freqComparison = b.getValue().compareTo(a.getValue()); // Orders by frequency
-            if (freqComparison == 0) {
-                return a.getKey().compareTo(b.getKey()); // Orders alphabetically
-            }
-            return freqComparison;
-        });
-
-        // Counts the frequency of each word
-        for (String word : words) {
-            wordFrequencyMap.put(word, wordFrequencyMap.getOrDefault(word, 0) + 1);
-        }
-        pq.addAll(wordFrequencyMap.entrySet());
-
-        return pq;
-    }
 
     public static void TheGuardianDownloader() throws IOException {
         final String API_KEY = "API_KEY";
