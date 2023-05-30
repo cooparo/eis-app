@@ -11,7 +11,8 @@ public class Ranker {
     private PriorityQueue<Map.Entry<String, Integer>> wordFrequencyMap;
 
     public Ranker() {
-        this.wordFrequencyMap = new PriorityQueue<>((a, b) -> {
+        this.wordFrequencyMap = new PriorityQueue<>(
+                (a, b) -> {
             int freqComparison = b.getValue().compareTo(a.getValue()); // Orders by frequency
             if (freqComparison == 0) {
                 return a.getKey().compareTo(b.getKey()); // Orders alphabetically
@@ -27,35 +28,29 @@ public class Ranker {
      * @param articles  the articles to be ranked
      */
     public void rank(ArrayList<Article> articles) {
+
         for (Article article : articles) {
             Set<String> tokenSet = ArticleTokenizer.tokenize(article);
 
-            Map<String, Integer> wordCountMap = new HashMap<>();
-
-
             for (String word : tokenSet) {
-                if() {
-                    wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+                // Check if the word is already present in the wordFrequencyMap
+                boolean wordExists = false;
+                for (Map.Entry<String, Integer> entry : wordFrequencyMap) {
+                    if (entry.getKey().equals(word)) {
+                        // Word is already present, increment the counter
+                        int frequency = entry.getValue();
+                        entry.setValue(frequency + 1);
+                        wordExists = true;
+                        break;
+                    }
                 }
+
+                // Word is not present, add it to the wordFrequencyMap
+                if (!wordExists) {
+                    wordFrequencyMap.add(new AbstractMap.SimpleEntry<>(word, 1));
+                }
+
             }
-            wordFrequencyMap.addAll(wordCountMap.entrySet());
-
-
-//            Thread thread = new Thread(() -> {
-//                Set<String> wordSet = ArticleTokenizer.tokenize(article);
-//                System.out.println(article.getTitle() + "\nSet:" + wordSet);
-//                Map<String, Integer> wordCountMap = new HashMap<>();
-//                for (String word : wordSet) {
-//                    wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
-//                }
-//
-//                // Synchronize the access to the wordFrequencyMap. This is needed for concurrency safety.
-//                synchronized (wordFrequencyMap) {
-//                    wordFrequencyMap.addAll(wordCountMap.entrySet());
-//                }
-//            });
-//
-//            thread.start();
         }
 
         clearUsingStoplist();

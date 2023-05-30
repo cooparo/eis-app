@@ -1,55 +1,33 @@
 package it.unipd.dei.eis.utils;
 
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.CoreDocument;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import it.unipd.dei.eis.models.Article;
 
-import java.util.Properties;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class ArticleTokenizer {
 
 
-    private static final String ANNOTATORS = "tokenize,ssplit,pos";
     /**
-     * Extract tokens from the input article (title and body), using the specified annotators sequence.
+     * Extract tokens from the input article (title and body)
      * @param article   the article to tokenize
      * @return set of distinct tokens extracted from the article, in lowercase
      */
     public static Set<String> tokenize(Article article) {
-        StanfordCoreNLP nlpPipeline = createPipeline(ANNOTATORS);
+        // Merge title and body
+        String text = article.getTitle() + " " + article.getBody();
 
-        String text = article.getTitle() + "\n" + article.getBody();
+        Set<String> tokens = new TreeSet<>();
 
-        // create a document object
-        CoreDocument document = new CoreDocument(text);
+        // Add all the tokens to the set
+        tokens.addAll(
+                // Split the text by spaces and punctuation
+                Arrays.asList(text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+"))
+        );
 
-        // annotate the document
-        nlpPipeline.annotate(document);
+        return tokens;
 
-        Set<String> distinctTokens = new TreeSet<>();
-        // tokens
-        for (CoreLabel token : document.tokens()) {
-
-            String tkn = token.originalText().toLowerCase();
-
-            distinctTokens.add(tkn);
-        }
-
-        return distinctTokens;
-    }
-
-    /**
-     * Create a StanfordCoreNLP pipeline with the specified annotators sequence.
-     * @param annotators
-     * @return
-     */
-    public static StanfordCoreNLP createPipeline(String annotators) {
-        Properties props = new Properties();
-        props.setProperty("annotators", annotators);
-        return new StanfordCoreNLP(props);
     }
 
 }
