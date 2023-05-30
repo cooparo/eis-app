@@ -1,7 +1,10 @@
 package it.unipd.dei.eis.adapters;
 
 import it.unipd.dei.eis.interfaces.IArticle;
+
 import it.unipd.dei.eis.models.TheGuardian.TGArticle;
+
+import java.time.Instant;
 
 public class TheGuardianAdapter implements IArticle {
     private final TGArticle article;
@@ -24,4 +27,8 @@ public class TheGuardianAdapter implements IArticle {
     public String getBody() {
         return article.getFields().getBodyText();
     }
+
+    @Override
+    public Instant getPublicationTime() { return article.getWebPublicationDate(); }
+
 }
