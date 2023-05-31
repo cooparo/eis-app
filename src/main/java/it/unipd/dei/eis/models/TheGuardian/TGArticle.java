@@ -1,13 +1,13 @@
 package it.unipd.dei.eis.models.TheGuardian;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TGArticle {
     private String id;
     private String type;
     private String sectionId;
     private String sectionName;
-    private Date webPublicationDate;
+    private Instant webPublicationDate;
     private String webTitle;
     private String webUrl;
     private String apiUrl;
@@ -48,11 +48,11 @@ public class TGArticle {
         this.sectionName = sectionName;
     }
 
-    public Date getWebPublicationDate() {
+    public Instant getWebPublicationDate() {
         return webPublicationDate;
     }
 
-    public void setWebPublicationDate(Date webPublicationDate) {
+    public void setWebPublicationDate(Instant webPublicationDate) {
         this.webPublicationDate = webPublicationDate;
     }
 

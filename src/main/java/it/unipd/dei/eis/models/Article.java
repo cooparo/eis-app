@@ -1,23 +1,31 @@
 package it.unipd.dei.eis.models;
 
+import java.time.Instant;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import it.unipd.dei.eis.interfaces.IArticle;
 
+@JsonPropertyOrder({"id", "title", "body"})
 public class Article {
 
     String id;
     private String title;
     private String body;
+    private Instant publicationTime;
 
-    public Article(String id, String title, String body) {
+    public Article(String id, String title, String body, Instant publicationTime) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.publicationTime = publicationTime;
     }
 
     public Article(IArticle article) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.body = article.getBody();
+        this.publicationTime = article.getPublicationTime();
     }
 
     public Article() {}
@@ -40,5 +48,7 @@ public class Article {
     public void setId(String id) {
         this.id = id;
     }
+    public void setPublicationTime(Instant publicationTime) { this.publicationTime = publicationTime; }
+    public Instant getPublicationTime() { return this.publicationTime; }
 
 }

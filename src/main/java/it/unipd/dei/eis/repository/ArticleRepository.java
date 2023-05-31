@@ -3,20 +3,31 @@ package it.unipd.dei.eis.repository;
 import it.unipd.dei.eis.interfaces.IRepository;
 import it.unipd.dei.eis.models.Article;
 import it.unipd.dei.eis.interfaces.ISpecification;
+import it.unipd.dei.eis.utils.Format;
+import it.unipd.dei.eis.utils.IO;
+import it.unipd.dei.eis.utils.Marshalling;
+
+import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ArticleRepository implements IRepository<Article> {
 
-    private ArrayList<Article> storage;
+    private final ArrayList<Article> storage;
+    private final Format fileFormat;
 
     public ArticleRepository() {
+        this(Format.JSON);
+    }
+    public ArticleRepository(Format fileFormat) {
+        this.fileFormat = fileFormat;
         storage = ArticleStorage.getInstance().getArticleList();
     }
 
     @Override
-    public void add(Article article) {
-        storage.add(article);
+    public void add(Article... articles) {
+        storage.addAll(Arrays.asList(articles));
     }
 
     @Override
@@ -52,5 +63,19 @@ public class ArticleRepository implements IRepository<Article> {
         }
 
         return articleArrayList;
+    }
+
+    // PERSISTENCE
+    private String getFilePath() {
+        return "./src/main/resources/storage." + fileFormat.toString().toLowerCase();
+    }
+    public void saveToDisk() throws IOException {
+        String serializedStorage = Marshalling.serialize(fileFormat, storage);
+        IO.writeFile(getFilePath(), serializedStorage);
+    }
+    public void loadFromDisk() throws IOException {
+        String serializedStorage = IO.readFile(getFilePath());
+        ArrayList<Article> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<Article>>(){});
+        add(container.toArray(new Article[0]));
     }
 }
