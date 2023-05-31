@@ -27,7 +27,12 @@ class TheGuardianClientTest {
         int articlesNumber = 20;
 
         // Act
-        ArrayList<TGArticle> articleList = theGuardianClient.getArticleArrayList(query, articlesNumber);
+        ArrayList<TGArticle> articleList = null;
+        try {
+            articleList = theGuardianClient.getArticleArrayList(query, articlesNumber);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Assert
         assertNotNull(articleList);

@@ -13,11 +13,14 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- FasterXML/jackson Library -->
+        <!-- FasterXML/jackson -->
         <jackson.version>2.14.0</jackson.version>
+        <corenlp.version>4.4.0</corenlp.version>
     </properties>
 
     <dependencies>
+
+        <!-- FasterXML/Jackson - Parsing -->
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -52,12 +55,29 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Core NLP -->
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp.version}</version>
+            <classifier>models</classifier>
+        </dependency>
+
     </dependencies>
 
     <build>

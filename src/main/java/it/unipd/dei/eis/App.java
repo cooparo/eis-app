@@ -12,7 +12,7 @@ import it.unipd.dei.eis.utils.IO;
 import it.unipd.dei.eis.utils.Marshalling;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.function.Function;
 
 public class App {
@@ -24,9 +24,6 @@ public class App {
     }
     public static void download() throws IOException {
         TheGuardianReader();
-    }
-    public static void rank() {
-
     }
 
     public static void TheGuardianDownloader() throws IOException {
