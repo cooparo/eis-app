@@ -1,7 +1,9 @@
 package it.unipd.dei.eis.models;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import it.unipd.dei.eis.interfaces.IArticle;
 
+@JsonPropertyOrder({"id", "title", "body"})
 public class Article {
 
     String id;

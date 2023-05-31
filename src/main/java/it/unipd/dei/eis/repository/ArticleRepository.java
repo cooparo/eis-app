@@ -66,21 +66,16 @@ public class ArticleRepository implements IRepository<Article> {
     }
 
     // PERSISTENCE
-    private static class StorageContainer {
-        private final ArrayList<Article> storage;
-        StorageContainer(ArrayList<Article> storage) { this.storage = storage; }
-        public ArrayList<Article> getStorage() { return storage; }
-    }
     private String getFilePath() {
         return "./src/main/resources/storage." + fileFormat.toString().toLowerCase();
     }
     public void saveToDisk() throws IOException {
-        String serializedStorage = Marshalling.serialize(fileFormat, new StorageContainer(storage));
+        String serializedStorage = Marshalling.serialize(fileFormat, storage);
         IO.writeFile(getFilePath(), serializedStorage);
     }
     public void loadFromDisk() throws IOException {
         String serializedStorage = IO.readFile(getFilePath());
-        StorageContainer container = Marshalling.deserialize(fileFormat, serializedStorage, StorageContainer.class);
-        add(container.getStorage().toArray(new Article[0]));
+        ArrayList<Article> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<Article>>(){});
+        add(container.toArray(new Article[0]));
     }
 }
