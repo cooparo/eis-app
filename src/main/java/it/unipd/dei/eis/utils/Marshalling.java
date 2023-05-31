@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,15 +28,18 @@ public class Marshalling {
     }
     public static <R> R deserialize(Format format, String content, Class<R> type) throws IOException {
         ObjectMapper mapper = getMapper(format);
+        mapper.registerModule(new JavaTimeModule());
         return mapper.readValue(content, type);
     }
     public static <R> R deserialize(Format format, String content, TypeReference<R> type) throws IOException {
         ObjectMapper mapper = getMapper(format);
+        mapper.registerModule(new JavaTimeModule());
         if (format == Format.CSV) return deserializeCsv(mapper, content, type);
         return mapper.readValue(content, type);
     }
     public static String serialize(Format format, Object object) throws IOException {
         ObjectMapper mapper = getMapper(format);
+        mapper.registerModule(new JavaTimeModule());
         if (format == Format.CSV) return serializeCsv(mapper, object);
         return mapper.writeValueAsString(object);
     }

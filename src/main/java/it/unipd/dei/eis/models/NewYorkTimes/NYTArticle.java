@@ -1,17 +1,17 @@
 package it.unipd.dei.eis.models.NewYorkTimes;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class NYTArticle {
     private String identifier;
     private String url;
     private String title;
     private String body;
-    private Date date;
+    private Instant date;
     private String sourceSet;
     private String source;
 
-    public NYTArticle(String identifier, String url, String title, String body, Date date, String sourceSet, String source) {
+    public NYTArticle(String identifier, String url, String title, String body, Instant date, String sourceSet, String source) {
         this.identifier = identifier;
         this.url = url;
         this.title = title;
@@ -57,11 +57,11 @@ public class NYTArticle {
         this.body = body;
     }
 
-    public Date getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

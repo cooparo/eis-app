@@ -5,6 +5,7 @@ import it.unipd.dei.eis.models.TheGuardian.TGArticle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,7 @@ class TheGuardianClientTest {
     }
 
     @Test
-    void getArticleArrayList_ValidQueryAndNumber_ReturnsArticleList() {
+    void getArticleArrayList_ValidQueryAndNumber_ReturnsArticleList() throws IOException {
         // Arrange
         String query = "bitcoin";
         int articlesNumber = 20;
