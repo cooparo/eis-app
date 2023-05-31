@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,9 +48,9 @@ class RankerTest {
         ranker = new Ranker();
         ranker.rank(articleArrayList);
 
-        PriorityQueue<Map.Entry<String, Integer>> wordFrequencyMap = ranker.getWordFrequencyMap();
-        while (!ranker.getWordFrequencyMap().isEmpty()) {
-            Map.Entry<String, Integer> entry = wordFrequencyMap.poll();
+        Map<String, Integer> wordFrequencyMap = ranker.getWordFrequencyMap();
+        System.out.println("Word frequency map:");
+        for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
     }
