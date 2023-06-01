@@ -13,9 +13,9 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- FasterXML/jackson -->
         <jackson.version>2.14.0</jackson.version>
         <corenlp.version>4.4.0</corenlp.version>
+        <slf4j.version>2.0.7</slf4j.version>
     </properties>
 
     <dependencies>
@@ -78,6 +78,17 @@
             <classifier>models</classifier>
         </dependency>
 
+        <!-- Simple Logging Facade for Java -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
