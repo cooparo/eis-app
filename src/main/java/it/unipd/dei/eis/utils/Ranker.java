@@ -7,7 +7,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Ranker {
-    private static final String STOP_LIST_PATH = "src/main/resources/english_stoplist_v1.txt";
+
+    private static final String BASE_PATH = "src/main/resources/";
+    private static final String STOP_LIST_PATH = BASE_PATH + "english_stoplist_v1.txt";
     private Map<String, Integer> wordFrequencyMap = new HashMap<>();
 
     /**
@@ -64,7 +66,7 @@ public class Ranker {
 
     /**
      * Saves the wordFrequencyMap on a txt file.
-     * @param fileName      the name of the file
+     * @param fileName      the name of the file, e.g. "wordFrequencyMap.txt"
      * @throws IOException
      */
     public void saveOnTxt(String fileName) throws IOException {
@@ -74,12 +76,7 @@ public class Ranker {
             result.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
         }
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        writer.write(result.toString());
-
-        writer.close();
-
-        //TODO: choose directory where to save the file
+        IO.writeFile(BASE_PATH + fileName, result.toString());
     }
 
     private void clearUsingStopList() {
