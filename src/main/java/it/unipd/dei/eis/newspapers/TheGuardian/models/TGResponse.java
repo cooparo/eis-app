@@ -1,4 +1,4 @@
-package it.unipd.dei.eis.models.TheGuardian;
+package it.unipd.dei.eis.newspapers.TheGuardian.models;
 
 import java.util.ArrayList;
 

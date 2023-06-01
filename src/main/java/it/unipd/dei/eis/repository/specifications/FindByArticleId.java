@@ -1,7 +1,7 @@
 package it.unipd.dei.eis.repository.specifications;
 
 import it.unipd.dei.eis.interfaces.ISpecification;
-import it.unipd.dei.eis.models.Article;
+import it.unipd.dei.eis.repository.Article;
 
 import java.util.Objects;
 

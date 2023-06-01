@@ -1,10 +1,10 @@
-package it.unipd.dei.eis.utils;
+package it.unipd.dei.eis.ranker;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import it.unipd.dei.eis.models.Article;
+import it.unipd.dei.eis.repository.Article;
 
 import java.util.*;
 

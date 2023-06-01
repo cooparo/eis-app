@@ -1,7 +1,6 @@
 package it.unipd.dei.eis.repository;
 
 import it.unipd.dei.eis.interfaces.IRepository;
-import it.unipd.dei.eis.models.Article;
 import it.unipd.dei.eis.interfaces.ISpecification;
 import it.unipd.dei.eis.utils.Format;
 import it.unipd.dei.eis.utils.IO;

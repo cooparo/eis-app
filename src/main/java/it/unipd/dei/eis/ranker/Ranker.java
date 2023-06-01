@@ -1,6 +1,7 @@
-package it.unipd.dei.eis.utils;
+package it.unipd.dei.eis.ranker;
 
-import it.unipd.dei.eis.models.Article;
+import it.unipd.dei.eis.repository.Article;
+import it.unipd.dei.eis.utils.IO;
 
 import java.io.*;
 import java.util.*;

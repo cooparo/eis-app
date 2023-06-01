@@ -1,16 +1,16 @@
-package it.unipd.dei.eis.adapters;
+package it.unipd.dei.eis.newspapers.TheGuardian;
 
-import it.unipd.dei.eis.models.TheGuardian.TGArticle;
-import it.unipd.dei.eis.models.TheGuardian.TGFields;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGFields;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class TheGuardianAdapterTest {
+class TGArticleAdapterTest {
 
-    private TheGuardianAdapter theGuardianAdapter;
+    private TGArticleAdapter theGuardianAdapter;
     private TGArticle testArticle;
 
     @BeforeEach
@@ -25,7 +25,7 @@ class TheGuardianAdapterTest {
         testArticle.setFields(fields);
 
         // Create the TheGuardianAdapter instance
-        theGuardianAdapter = new TheGuardianAdapter(testArticle);
+        theGuardianAdapter = new TGArticleAdapter(testArticle);
     }
 
     @Test

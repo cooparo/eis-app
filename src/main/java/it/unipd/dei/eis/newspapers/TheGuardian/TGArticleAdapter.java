@@ -1,15 +1,15 @@
-package it.unipd.dei.eis.adapters;
+package it.unipd.dei.eis.newspapers.TheGuardian;
 
 import it.unipd.dei.eis.interfaces.IArticle;
 
-import it.unipd.dei.eis.models.TheGuardian.TGArticle;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 
 import java.time.Instant;
 
-public class TheGuardianAdapter implements IArticle {
+public class TGArticleAdapter implements IArticle {
     private final TGArticle article;
 
-    public TheGuardianAdapter(TGArticle article) {
+    public TGArticleAdapter(TGArticle article) {
         this.article = article;
     }
 

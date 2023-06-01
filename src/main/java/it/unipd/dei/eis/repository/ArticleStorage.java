@@ -1,7 +1,5 @@
 package it.unipd.dei.eis.repository;
 
-import it.unipd.dei.eis.models.Article;
-
 import java.util.ArrayList;
 
 public class ArticleStorage {

@@ -1,6 +1,7 @@
-package it.unipd.dei.eis.utils;
+package it.unipd.dei.eis.ranker;
 
-import it.unipd.dei.eis.models.Article;
+import it.unipd.dei.eis.repository.Article;
+import it.unipd.dei.eis.ranker.Ranker;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

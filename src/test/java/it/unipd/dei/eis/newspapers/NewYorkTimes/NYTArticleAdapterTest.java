@@ -1,10 +1,10 @@
-package it.unipd.dei.eis.adapters;
+package it.unipd.dei.eis.newspapers.NewYorkTimes;
 
-import it.unipd.dei.eis.models.NewYorkTimes.NYTArticle;
+import it.unipd.dei.eis.newspapers.NewYorkTimes.models.NYTArticle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class NewYorkTimesAdapterTest {
+class NYTArticleAdapterTest {
 
     @Test
     public void testGetId() {
@@ -13,7 +13,7 @@ class NewYorkTimesAdapterTest {
         nytArticle.setIdentifier("123456");
 
         // Create an instance of NewYorkTimesAdapter using the mock NYTArticle
-        NewYorkTimesAdapter adapter = new NewYorkTimesAdapter(nytArticle);
+        NYTArticleAdapter adapter = new NYTArticleAdapter(nytArticle);
 
         // Verify that the getId() method returns the expected identifier
         Assertions.assertEquals("123456", adapter.getId());
@@ -26,7 +26,7 @@ class NewYorkTimesAdapterTest {
         nytArticle.setTitle("Sample Article Title");
 
         // Create an instance of NewYorkTimesAdapter using the mock NYTArticle
-        NewYorkTimesAdapter adapter = new NewYorkTimesAdapter(nytArticle);
+        NYTArticleAdapter adapter = new NYTArticleAdapter(nytArticle);
 
         // Verify that the getTitle() method returns the expected title
         Assertions.assertEquals("Sample Article Title", adapter.getTitle());
@@ -39,7 +39,7 @@ class NewYorkTimesAdapterTest {
         nytArticle.setBody("Sample article body content");
 
         // Create an instance of NewYorkTimesAdapter using the mock NYTArticle
-        NewYorkTimesAdapter adapter = new NewYorkTimesAdapter(nytArticle);
+        NYTArticleAdapter adapter = new NYTArticleAdapter(nytArticle);
 
         // Verify that the getBody() method returns the expected body content
         Assertions.assertEquals("Sample article body content", adapter.getBody());

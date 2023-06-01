@@ -1,4 +1,4 @@
-package it.unipd.dei.eis.models.NewYorkTimes;
+package it.unipd.dei.eis.newspapers.NewYorkTimes.models;
 
 import java.time.Instant;
 

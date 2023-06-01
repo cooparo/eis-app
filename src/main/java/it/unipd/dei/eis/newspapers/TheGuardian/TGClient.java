@@ -1,8 +1,8 @@
-package it.unipd.dei.eis.clients.remote;
+package it.unipd.dei.eis.newspapers.TheGuardian;
 
-import it.unipd.dei.eis.models.TheGuardian.TGArticle;
-import it.unipd.dei.eis.models.TheGuardian.TGResponse;
-import it.unipd.dei.eis.models.TheGuardian.TGResponseWrapper;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponse;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponseWrapper;
 import it.unipd.dei.eis.utils.Format;
 import it.unipd.dei.eis.utils.HTTPClient;
 import it.unipd.dei.eis.utils.Marshalling;
@@ -10,12 +10,12 @@ import it.unipd.dei.eis.utils.Marshalling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TheGuardianClient {
+public class TGClient {
 
     private final static String BASE_URL = "https://content.guardianapis.com/search";
     private String apiKey;
 
-    public TheGuardianClient(String apiKey) {
+    public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
 

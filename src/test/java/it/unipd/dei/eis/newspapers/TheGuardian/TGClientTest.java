@@ -1,7 +1,6 @@
-package it.unipd.dei.eis.clients;
+package it.unipd.dei.eis.newspapers.TheGuardian;
 
-import it.unipd.dei.eis.clients.remote.TheGuardianClient;
-import it.unipd.dei.eis.models.TheGuardian.TGArticle;
+import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +9,14 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TheGuardianClientTest {
-        private TheGuardianClient theGuardianClient;
+class TGClientTest {
+        private TGClient theGuardianClient;
 
     @BeforeEach
     void setUp() {
         // Set up the TheGuardianClient instance with your API key
         final String API_KEY = System.getenv("API_KEY");
-        theGuardianClient = new TheGuardianClient(API_KEY);
+        theGuardianClient = new TGClient(API_KEY);
     }
 
     @Test

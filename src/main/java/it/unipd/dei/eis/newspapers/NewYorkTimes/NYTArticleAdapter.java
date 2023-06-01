@@ -1,13 +1,13 @@
-package it.unipd.dei.eis.adapters;
+package it.unipd.dei.eis.newspapers.NewYorkTimes;
 
-import it.unipd.dei.eis.models.NewYorkTimes.NYTArticle;
+import it.unipd.dei.eis.newspapers.NewYorkTimes.models.NYTArticle;
 
 import java.time.Instant;
 
-public class NewYorkTimesAdapter implements it.unipd.dei.eis.interfaces.IArticle{
+public class NYTArticleAdapter implements it.unipd.dei.eis.interfaces.IArticle{
     private final NYTArticle article;
 
-    public NewYorkTimesAdapter(NYTArticle article) {
+    public NYTArticleAdapter(NYTArticle article) {
         this.article = article;
     }
 
