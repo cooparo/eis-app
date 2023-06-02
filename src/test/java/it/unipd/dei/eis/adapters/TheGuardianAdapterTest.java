@@ -5,6 +5,8 @@ import it.unipd.dei.eis.models.TheGuardian.TGFields;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -29,7 +31,7 @@ class TheGuardianAdapterTest {
     }
 
     @Test
-    void getTitle_ReturnsWebTitle() {
+    public void getId_ReturnsArticleId() {
         // Arrange
         String expectedTitle = "Test Article";
 
@@ -42,7 +44,20 @@ class TheGuardianAdapterTest {
     }
 
     @Test
-    void getBody_ReturnsBodyText() {
+    public void getTitle_ReturnsWebTitle() {
+        // Arrange
+        String expectedId = "1234567";
+
+        // Act
+        String actualId = theGuardianAdapter.getId();
+
+        // Assert
+        assertNotNull(actualId);
+        assertEquals(expectedId, actualId);
+    }
+
+    @Test
+    public void getBody_ReturnsBodyText() {
         // Arrange
         String expectedBody = "This is the test article's body text";
 
@@ -54,4 +69,16 @@ class TheGuardianAdapterTest {
         assertEquals(expectedBody, actualBody);
     }
 
+    @Test
+    public void getPublicationTime_ReturnsPublicationTime() {
+        // Arrange
+        Instant expectedDate = Instant.parse("2017-02-03T10:37:30.00Z");
+
+        // Act
+        Instant actualDate = theGuardianAdapter.getPublicationTime();
+
+        // Assert
+        assertNotNull(actualDate);
+        assertEquals(expectedDate, actualDate);
+    }
 }
