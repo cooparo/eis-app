@@ -40,17 +40,13 @@ public class ArticleRepository implements IRepository<Article> {
             int oldArticleIndex = storage.indexOf(oldArticle);
             storage.set(oldArticleIndex, newArticle);
         } else {
-            //TODO: throw an Exception
+            throw new IllegalArgumentException("Article not found");
         }
     }
 
     @Override
     public void remove(String id) {
-        for(Article article : storage) {
-            if(article.getId().equals(id)) {
-                storage.remove(article);
-            }
-        }
+        storage.removeIf(article -> article.getId().equals(id));
     }
 
     @Override

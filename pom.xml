@@ -6,7 +6,7 @@
 
     <groupId>it.unipd.dei.eis</groupId>
     <artifactId>eis-app</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -16,6 +16,7 @@
         <jackson.version>2.14.0</jackson.version>
         <corenlp.version>4.4.0</corenlp.version>
         <slf4j.version>2.0.7</slf4j.version>
+        <junit.version>5.9.1</junit.version>
     </properties>
 
     <dependencies>
@@ -60,7 +61,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
