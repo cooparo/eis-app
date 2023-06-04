@@ -75,7 +75,7 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>${corenlp.version}</version>
-            <classifier>models</classifier>
+            <classifier>models-english</classifier>
         </dependency>
 
         <!-- Simple Logging Facade for Java -->
