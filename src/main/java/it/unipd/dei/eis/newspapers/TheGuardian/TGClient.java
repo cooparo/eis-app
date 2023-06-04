@@ -20,7 +20,7 @@ public class TGClient {
     }
 
     public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) throws IOException {
-        String url = BASE_URL+"?q="+query+"&page-size="+articlesNumber+"&api-key="+apiKey;
+        String url = BASE_URL+"?q="+query+"&show-fields=body-text"+"&page-size="+articlesNumber+"&api-key="+apiKey;
 
         String data = HTTPClient.get(url).getData();
         TGResponseWrapper root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
