@@ -20,6 +20,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         download();
+        repository.loadFromDisk();
         System.out.println(repository.getAll().get(0).getTitle());
     }
     public static void download() throws IOException {
