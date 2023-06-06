@@ -36,7 +36,6 @@ public class TGClient {
 
         // If the number of articles is greater than 200, we need to make multiple requests
         int pagesNumber = articlesNumber > 200 ? (int) Math.ceil(articlesNumber / 200.0) : 1;
-//        System.out.println("Number of pages: " + pagesNumber);
 
         ArrayList<TGArticle> results = new ArrayList<>();
 
@@ -57,11 +56,6 @@ public class TGClient {
             TGResponse response = root.getResponse();
 
             results.addAll(response.getResults());
-            System.out.println("Number of articles: " + results.size());
-
-
-            System.out.println("Page " + i + " of " + pagesNumber + " downloaded");
-            System.out.println("Page size: " + pageSize);
         }
 
 
