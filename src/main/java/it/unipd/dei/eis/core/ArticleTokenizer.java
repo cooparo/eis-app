@@ -5,7 +5,6 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import it.unipd.dei.eis.interfaces.IArticle;
-import it.unipd.dei.eis.repository.Article;
 
 import java.util.*;
 

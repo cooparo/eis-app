@@ -1,20 +1,16 @@
 package it.unipd.dei.eis.core;
 
-import it.unipd.dei.eis.interfaces.IArticle;
 import it.unipd.dei.eis.newspapers.TheGuardian.TGArticleAdapter;
 import it.unipd.dei.eis.newspapers.TheGuardian.TGClient;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponseWrapper;
-import it.unipd.dei.eis.repository.Article;
 import it.unipd.dei.eis.repository.ArticleRepository;
-import it.unipd.dei.eis.repository.ArticleStorage;
 import it.unipd.dei.eis.utils.FileFormat;
 import it.unipd.dei.eis.utils.IO;
 import it.unipd.dei.eis.utils.Marshalling;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class Downloader {
     private final ArticleRepository repository;
