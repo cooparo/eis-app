@@ -1,60 +1,36 @@
 package it.unipd.dei.eis;
 
-import it.unipd.dei.eis.interfaces.IArticle;
-import it.unipd.dei.eis.newspapers.TheGuardian.TGArticleAdapter;
-import it.unipd.dei.eis.newspapers.TheGuardian.TGClient;
-import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
-import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponseWrapper;
-import it.unipd.dei.eis.ranker.Ranker;
-import it.unipd.dei.eis.repository.Article;
+import it.unipd.dei.eis.core.Downloader;
+import it.unipd.dei.eis.core.Ranker;
 import it.unipd.dei.eis.repository.ArticleRepository;
-import it.unipd.dei.eis.utils.Format;
-import it.unipd.dei.eis.utils.IO;
-import it.unipd.dei.eis.utils.Marshalling;
+import it.unipd.dei.eis.utils.FileFormat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.Function;
 
 public class App {
-    private static final ArticleRepository repository = new ArticleRepository();
+    private static final ArticleRepository repository = new ArticleRepository(FileFormat.CSV);
 
     public static void main(String[] args) throws IOException {
+        // EXAMPLES
+        // eis-app.exe --download --rank --search TheGuardian pasta
+        // eis-app.exe -dr -f CSV
+
         download();
 
-        repository.loadFromDisk();
         System.out.println(repository.getAll().get(0).getTitle());
         System.out.println(repository.getAll().get(0).getBody());
-
-//        Ranker ranker = new Ranker();
-//        ranker.rank(repository.getAll());
-//        ranker .saveOnTxt("ranked.txt");
     }
     public static void download() throws IOException {
-        theGuardianDownloader();
-    }
+        Downloader downloader = new Downloader(repository);
+        downloader.theGuardianReader();
 
-    public static void theGuardianDownloader() throws IOException {
-        final String API_KEY = System.getenv("API_KEY");
-        TGClient client = new TGClient(API_KEY);
-
-        ArrayList<TGArticle> articles = client.getArticleArrayList("bitcoin", 100);
-
-        addDataToRepository(articles, TGArticleAdapter::new);
-
-    }
-    public static void theGuardianReader() throws IOException {
-        String text = IO.readFile("./src/main/resources/the_guardian_response_1.json");
-        TGResponseWrapper root = Marshalling.deserialize(Format.JSON, text, TGResponseWrapper.class);
-
-        ArrayList<TGArticle> articles = root.getResponse().getResults();
-        addDataToRepository(articles, TGArticleAdapter::new);
-    }
-
-    private static <NewspaperArticle> void addDataToRepository(ArrayList<NewspaperArticle> articles, Function<NewspaperArticle, IArticle> converter) throws IOException {
-        for (NewspaperArticle article : articles) {
-            repository.add(new Article(converter.apply(article)));
-        }
         repository.saveToDisk();
     }
+    public static void rank() throws IOException {
+        repository.loadFromDisk();
+
+        Ranker ranker = new Ranker(repository);
+        ranker.saveOnTxt("ranked.txt");
+    }
 }
+
