@@ -2,7 +2,7 @@ package it.unipd.dei.eis.repository;
 
 import it.unipd.dei.eis.interfaces.IRepository;
 import it.unipd.dei.eis.interfaces.ISpecification;
-import it.unipd.dei.eis.utils.Format;
+import it.unipd.dei.eis.utils.FileFormat;
 import it.unipd.dei.eis.utils.IO;
 import it.unipd.dei.eis.utils.Marshalling;
 
@@ -14,13 +14,14 @@ import java.util.Arrays;
 public class ArticleRepository implements IRepository<Article> {
 
     private final ArrayList<Article> storage;
-    private final Format fileFormat;
+    private final FileFormat fileFormat;
     private final static String BASE_PATH = "src/main/resources/";
 
     public ArticleRepository() {
-        this(Format.JSON);
+        this(FileFormat.JSON);
     }
-    public ArticleRepository(Format fileFormat) {
+
+    public ArticleRepository(FileFormat fileFormat) {
         this.fileFormat = fileFormat;
         storage = ArticleStorage.getInstance().getArticleList();
     }

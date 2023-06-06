@@ -3,11 +3,10 @@ package it.unipd.dei.eis.newspapers.TheGuardian;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponse;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponseWrapper;
-import it.unipd.dei.eis.utils.Format;
+import it.unipd.dei.eis.utils.FileFormat;
 import it.unipd.dei.eis.utils.HTTPClient;
 import it.unipd.dei.eis.utils.Marshalling;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TGClient {
             String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
 
             String data = HTTPClient.get(url).getData();
-            root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
+            root = Marshalling.deserialize(FileFormat.JSON, data, TGResponseWrapper.class);
 
             TGResponse response = root.getResponse();
 

@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Marshalling {
-    private static ObjectMapper getMapper(Format f) {
+    private static ObjectMapper getMapper(FileFormat f) {
         switch (f) {
             case XML:
                 return new XmlMapper();
@@ -27,8 +27,8 @@ public class Marshalling {
                 return new ObjectMapper();
         }
     }
-    public static <R> R deserialize(Format format, String content, Class<R> type) {
-        ObjectMapper mapper = getMapper(format);
+    public static <R> R deserialize(FileFormat fileFormat, String content, Class<R> type) {
+        ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
         try {
             return mapper.readValue(content, type);
@@ -36,22 +36,22 @@ public class Marshalling {
             throw new MarshallingException(e.getMessage());
         }
     }
-    public static <R> R deserialize(Format format, String content, TypeReference<R> type) {
-        ObjectMapper mapper = getMapper(format);
+    public static <R> R deserialize(FileFormat fileFormat, String content, TypeReference<R> type) {
+        ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
         try {
-            if (format == Format.CSV) return deserializeCsv(mapper, content, type);
+            if (fileFormat == FileFormat.CSV) return deserializeCsv(mapper, content, type);
             return mapper.readValue(content, type);
         } catch (IOException e) {
             throw new MarshallingException(e.getMessage());
         }
 
     }
-    public static String serialize(Format format, Object object) {
-        ObjectMapper mapper = getMapper(format);
+    public static String serialize(FileFormat fileFormat, Object object) {
+        ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
         try {
-            if (format == Format.CSV) return serializeCsv(mapper, object);
+            if (fileFormat == FileFormat.CSV) return serializeCsv(mapper, object);
             return mapper.writeValueAsString(object);
         } catch (IOException e) {
             throw new MarshallingException(e.getMessage());

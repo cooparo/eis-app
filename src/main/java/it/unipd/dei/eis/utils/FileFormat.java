@@ -1,6 +1,6 @@
 package it.unipd.dei.eis.utils;
 
-public enum Format {
+public enum FileFormat {
     JSON,
     XML,
     CSV
