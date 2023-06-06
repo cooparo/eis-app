@@ -49,14 +49,10 @@ public class TGClient {
             } else pageSize = Math.min(articlesNumber, MAX_PAGE_SIZE);
 
             TGResponseWrapper root;
-            try {
-                String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
+            String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
 
-                String data = HTTPClient.get(url).getData();
-                root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            String data = HTTPClient.get(url).getData();
+            root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
 
             TGResponse response = root.getResponse();
 
