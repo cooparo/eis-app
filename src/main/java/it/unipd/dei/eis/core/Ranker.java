@@ -1,6 +1,7 @@
-package it.unipd.dei.eis.ranker;
+package it.unipd.dei.eis.core;
 
-import it.unipd.dei.eis.repository.Article;
+import it.unipd.dei.eis.interfaces.IArticle;
+import it.unipd.dei.eis.repository.ArticleRepository;
 import it.unipd.dei.eis.utils.IO;
 
 import java.io.*;
@@ -13,15 +14,20 @@ public class Ranker {
     private static final String STOP_LIST_PATH = BASE_PATH + "english_stoplist_v1.txt";
     private Map<String, Integer> wordFrequencyMap = new HashMap<>();
 
+    private final ArticleRepository repository;
+
+    public Ranker(ArticleRepository repository) {
+        this.repository = repository;
+    }
+
     /**
      * Ranks the articles by word frequency, in descending order.
      * The ranking is done in parallel, for each article.
      * Updates the wordFrequencyMap.
-     * @param articles  the articles to be ranked
      */
-    public void rank(ArrayList<Article> articles) {
+    public Map<String, Integer> rank() {
 
-        for (Article article : articles) {
+        for (IArticle article : repository.getAll()) {
             Set<String> tokenSet = ArticleTokenizer.tokenize(article);
 
             for (String word : tokenSet) {
@@ -45,6 +51,7 @@ public class Ranker {
 
         clearUsingStopList();
         wordFrequencyMap = sortMapByValueThenByKey(wordFrequencyMap);
+        return wordFrequencyMap;
     }
 
     public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) {
@@ -65,22 +72,7 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
-    /**
-     * Saves the wordFrequencyMap on a txt file.
-     * @param fileName      the name of the file, e.g. "wordFrequencyMap.txt"
-     * @throws IOException
-     */
-    public void saveOnTxt(String fileName) throws IOException {
-        StringBuilder result = new StringBuilder();
-
-        for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
-            result.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
-        }
-
-        IO.writeFile(BASE_PATH + fileName, result.toString());
-    }
-
-    private void clearUsingStopList() {
+    private void clearUsingStopList() { //TODO: use CoreLNP custom's stop-list
         Set<String> words = new HashSet<>();
 
         try {
@@ -106,5 +98,21 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
+    public String getWordFrequencyReport() {
+        StringBuilder result = new StringBuilder();
 
+        for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
+            result.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+        }
+        return result.toString();
+    }
+
+    /**
+     * Saves the wordFrequencyMap on a txt file.
+     * @param fileName      the name of the file, e.g. "wordFrequencyMap.txt"
+     * @throws IOException
+     */
+    public void saveOnTxt(String fileName) throws IOException {
+        IO.writeFile(BASE_PATH + fileName, getWordFrequencyReport());
+    }
 }

@@ -1,5 +1,6 @@
 package it.unipd.dei.eis.repository;
 
+import it.unipd.dei.eis.interfaces.IArticle;
 import it.unipd.dei.eis.interfaces.IRepository;
 import it.unipd.dei.eis.interfaces.ISpecification;
 import it.unipd.dei.eis.utils.FileFormat;
@@ -10,10 +11,11 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Function;
 
-public class ArticleRepository implements IRepository<Article> {
+public class ArticleRepository implements IRepository<IArticle> {
 
-    private final ArrayList<Article> storage;
+    private final ArrayList<IArticle> storage;
     private final FileFormat fileFormat;
     private final static String BASE_PATH = "src/main/resources/";
 
@@ -26,18 +28,23 @@ public class ArticleRepository implements IRepository<Article> {
         storage = ArticleStorage.getInstance().getArticleList();
     }
 
-    @Override
-    public void add(Article... articles) {
+    public void add(IArticle... articles) {
         storage.addAll(Arrays.asList(articles));
     }
 
+    public <NewspaperArticle> void add(ArrayList<NewspaperArticle> articles, Function<NewspaperArticle, IArticle> converter) {
+        for (NewspaperArticle article : articles) {
+            add(new Article(converter.apply(article)));
+        }
+    }
+
     @Override
-    public ArrayList<Article> getAll() {
+    public ArrayList<IArticle> getAll() {
         return storage;
     }
 
     @Override
-    public void update(Article oldArticle, Article newArticle) {
+    public void update(IArticle oldArticle, IArticle newArticle) {
         if(storage.contains(oldArticle)) {
             int oldArticleIndex = storage.indexOf(oldArticle);
             storage.set(oldArticleIndex, newArticle);
@@ -52,10 +59,10 @@ public class ArticleRepository implements IRepository<Article> {
     }
 
     @Override
-    public ArrayList<Article> FindBySpecification(ISpecification spec) {
-        ArrayList<Article> articleArrayList = new ArrayList<>();
+    public ArrayList<IArticle> FindBySpecification(ISpecification spec) {
+        ArrayList<IArticle> articleArrayList = new ArrayList<>();
 
-        for(Article article : storage) {
+        for(IArticle article : storage) {
             if(spec.exist(article)) articleArrayList.add(article);
         }
 
@@ -72,7 +79,7 @@ public class ArticleRepository implements IRepository<Article> {
     }
     public void loadFromDisk() throws IOException {
         String serializedStorage = IO.readFile(getFilePath());
-        ArrayList<Article> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<Article>>(){});
-        add(container.toArray(new Article[0]));
+        ArrayList<IArticle> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<IArticle>>(){});
+        add(container.toArray(new IArticle[0]));
     }
 }

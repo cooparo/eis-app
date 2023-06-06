@@ -1,9 +1,10 @@
-package it.unipd.dei.eis.ranker;
+package it.unipd.dei.eis.core;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import it.unipd.dei.eis.interfaces.IArticle;
 import it.unipd.dei.eis.repository.Article;
 
 import java.util.*;
@@ -28,7 +29,7 @@ public class ArticleTokenizer {
      * @param article   the article to tokenize
      * @return set of distinct tokens extracted from the article, in lowercase
      */
-    public static Set<String> tokenize(Article article) {
+    public static Set<String> tokenize(IArticle article) {
         // Merge title and body
         String text = article.getTitle() + " " + article.getBody();
 

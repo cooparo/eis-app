@@ -1,9 +1,11 @@
 package it.unipd.dei.eis.repository;
 
+import it.unipd.dei.eis.interfaces.IArticle;
+
 import java.util.ArrayList;
 
 public class ArticleStorage {
-    private final ArrayList<Article> articleArrayList;
+    private final ArrayList<IArticle> articleArrayList;
     private static final ArticleStorage instance = new ArticleStorage();
 
     private ArticleStorage() {
@@ -14,11 +16,11 @@ public class ArticleStorage {
         return instance;
     }
 
-    public ArticleStorage(ArrayList<Article> articleArrayList) {
+    public ArticleStorage(ArrayList<IArticle> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
 
-    public ArrayList<Article> getArticleList() {
+    public ArrayList<IArticle> getArticleList() {
         return articleArrayList;
     }
 
