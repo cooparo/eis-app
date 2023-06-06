@@ -15,6 +15,7 @@ public class ArticleRepository implements IRepository<Article> {
 
     private final ArrayList<Article> storage;
     private final Format fileFormat;
+    private final static String BASE_PATH = "src/main/resources/";
 
     public ArticleRepository() {
         this(Format.JSON);
@@ -62,7 +63,7 @@ public class ArticleRepository implements IRepository<Article> {
 
     // PERSISTENCE
     private String getFilePath() {
-        return "./src/main/resources/storage." + fileFormat.toString().toLowerCase();
+        return BASE_PATH + "storage." + fileFormat.toString().toLowerCase();
     }
     public void saveToDisk() throws IOException {
         String serializedStorage = Marshalling.serialize(fileFormat, storage);

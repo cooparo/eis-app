@@ -1,12 +1,19 @@
 package it.unipd.dei.eis.utils;
 
+import it.unipd.dei.eis.exceptions.HTTPClientException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class HTTPClient {
+
+    private static final int TIMEOUT_TIME = 5000;
+
     public static class Response {
         private final int status;
         private final String data;
@@ -23,29 +30,40 @@ public class HTTPClient {
         }
     }
 
-    public static Response get(String url) throws IOException {
-        return request("GET", url);
+    public static Response get(String url) {
+        return request(HTTPMethod.GET, url);
     }
-    public static Response request(String method, String url) throws IOException {
-        // Create connection
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        conn.setRequestMethod(method);
-        conn.setConnectTimeout(5000);
-        conn.setReadTimeout(5000);
+    public static Response request(HTTPMethod method, String url) {
 
-        // Turning the Input Stream into a String
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+        try {
+            // Create connection
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod(method.toString());
+            conn.setConnectTimeout(TIMEOUT_TIME);
+            conn.setReadTimeout(TIMEOUT_TIME);
+
+            // Turning the Input Stream into a String
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            // Freeing resources
+            in.close();
+            conn.disconnect();
+
+            return new Response(conn.getResponseCode(), content.toString());
+        } catch (ProtocolException e) {
+            throw new RuntimeException("Implementation error, the HTTP method " + method.toString() + " is not correct.");
+        } catch (MalformedURLException e) {
+            throw new HTTPClientException("The URL you've passed is malformed. Try to read the documentation dumbass.");
+        } catch (IOException e) {
+            throw new HTTPClientException(e.getMessage());
         }
 
-        // Freeing resources
-        in.close();
-        conn.disconnect();
-
-        return new Response(conn.getResponseCode(), content.toString());
     }
+
 }
