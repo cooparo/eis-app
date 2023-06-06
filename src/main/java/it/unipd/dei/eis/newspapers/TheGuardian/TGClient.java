@@ -8,25 +8,68 @@ import it.unipd.dei.eis.utils.HTTPClient;
 import it.unipd.dei.eis.utils.Marshalling;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class TGClient {
 
     private final static String BASE_URL = "https://content.guardianapis.com/search";
+    private final static String ENCODING_UTF8 = "UTF-8";
+    private final static int MAX_PAGE_SIZE = 200;
     private String apiKey;
 
     public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
 
-    public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) throws IOException {
-        String url = BASE_URL+"?q="+query+"&show-fields=body-text"+"&page-size="+articlesNumber+"&api-key="+apiKey;
+    public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) {
+        if (articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
 
-        String data = HTTPClient.get(url).getData();
-        TGResponseWrapper root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
+        // Encode the query, e.g. "nuclear power" -> "nuclear%20power"
+        final String formattedQuery;
+        try {
+            formattedQuery = URLEncoder.encode(query, ENCODING_UTF8);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
-        TGResponse response = root.getResponse();
-        return response.getResults();
+        // If the number of articles is greater than 200, we need to make multiple requests
+        int pagesNumber = articlesNumber > 200 ? (int) Math.ceil(articlesNumber / 200.0) : 1;
+//        System.out.println("Number of pages: " + pagesNumber);
+
+        ArrayList<TGArticle> results = new ArrayList<>();
+
+        for (int i = 1; i <= pagesNumber; i++) {
+
+            // The last page may have a different page size
+            int pageSize;
+            if (i == pagesNumber && articlesNumber % 200 != 0) { // Last page
+                pageSize = articlesNumber - MAX_PAGE_SIZE * (pagesNumber - 1);
+            } else pageSize = Math.min(articlesNumber, MAX_PAGE_SIZE);
+
+            TGResponseWrapper root;
+            try {
+                String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
+
+                String data = HTTPClient.get(url).getData();
+                root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            TGResponse response = root.getResponse();
+
+            results.addAll(response.getResults());
+            System.out.println("Number of articles: " + results.size());
+
+
+            System.out.println("Page " + i + " of " + pagesNumber + " downloaded");
+            System.out.println("Page size: " + pageSize);
+        }
+
+
+        return results;
     }
 
     public String getApiKey() {
