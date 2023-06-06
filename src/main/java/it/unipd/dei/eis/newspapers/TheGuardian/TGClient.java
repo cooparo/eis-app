@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class TGClient {
 
@@ -25,7 +24,7 @@ public class TGClient {
     }
 
     public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) {
-        if(articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
+        if (articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
 
         // Encode the query, e.g. "nuclear power" -> "nuclear%20power"
         final String formattedQuery;
@@ -37,43 +36,38 @@ public class TGClient {
 
         // If the number of articles is greater than 200, we need to make multiple requests
         int pagesNumber = articlesNumber > 200 ? (int) Math.ceil(articlesNumber / 200.0) : 1;
-        System.out.println("Number of pages: " + pagesNumber);
+//        System.out.println("Number of pages: " + pagesNumber);
 
         ArrayList<TGArticle> results = new ArrayList<>();
 
         for (int i = 1; i <= pagesNumber; i++) {
-            final int index = i;
 
-            Runnable task = () -> {
-                // The last page may have a different page size
-                int pageSize;
-                if (index == pagesNumber && articlesNumber % 200 != 0) { // Last page
-                    pageSize = articlesNumber - MAX_PAGE_SIZE * (pagesNumber - 1);
-                } else pageSize = Math.min(articlesNumber, MAX_PAGE_SIZE);
+            // The last page may have a different page size
+            int pageSize;
+            if (i == pagesNumber && articlesNumber % 200 != 0) { // Last page
+                pageSize = articlesNumber - MAX_PAGE_SIZE * (pagesNumber - 1);
+            } else pageSize = Math.min(articlesNumber, MAX_PAGE_SIZE);
 
-                TGResponseWrapper root;
-                try {
-                    String url = BASE_URL + "?q=" + formattedQuery + "&page=" + index + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
+            TGResponseWrapper root;
+            try {
+                String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
 
-                    String data = HTTPClient.get(url).getData();
-                    root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                String data = HTTPClient.get(url).getData();
+                root = Marshalling.deserialize(Format.JSON, data, TGResponseWrapper.class);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-                TGResponse response = root.getResponse();
-                synchronized (results) {
-                    results.addAll(response.getResults());
-                    System.out.println("Number of articles: " + results.size());
-                }
+            TGResponse response = root.getResponse();
 
-            System.out.println("Page " + index + " of " + pagesNumber + " downloaded");
+            results.addAll(response.getResults());
+            System.out.println("Number of articles: " + results.size());
+
+
+            System.out.println("Page " + i + " of " + pagesNumber + " downloaded");
             System.out.println("Page size: " + pageSize);
-            };
-
-            Thread thread = new Thread(task);
-            thread.start();
         }
+
 
         return results;
     }
