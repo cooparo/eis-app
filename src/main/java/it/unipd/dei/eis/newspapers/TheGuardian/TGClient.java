@@ -19,6 +19,8 @@ public class TGClient {
     private final static String BASE_URL = "https://content.guardianapis.com/search";
     private final static String ENCODING_UTF8 = "UTF-8";
     private final static int MAX_PAGE_SIZE = 200;
+    private final static int MAX_ARTICLES_NUMBER = 5000;
+
     private String apiKey;
 
     public TGClient(String apiKey) {
@@ -27,6 +29,7 @@ public class TGClient {
 
     public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) {
         if (articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
+        if (articlesNumber > MAX_ARTICLES_NUMBER) throw new IllegalArgumentException("Too many articles requested, max " + MAX_ARTICLES_NUMBER + " articles allowed");
 
         // Encode the query, e.g. "nuclear power" -> "nuclear%20power"
         final String formattedQuery;
