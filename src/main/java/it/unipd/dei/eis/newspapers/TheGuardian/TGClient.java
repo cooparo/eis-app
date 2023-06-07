@@ -1,12 +1,15 @@
 package it.unipd.dei.eis.newspapers.TheGuardian;
 
+import it.unipd.dei.eis.exceptions.InvalidFileFormatException;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponse;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponseWrapper;
 import it.unipd.dei.eis.utils.FileFormat;
 import it.unipd.dei.eis.utils.HTTPClient;
+import it.unipd.dei.eis.utils.IO;
 import it.unipd.dei.eis.utils.Marshalling;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class TGClient {
     private final static int MAX_PAGE_SIZE = 200;
     private String apiKey;
 
+    public TGClient() { this(System.getenv("THE_GUARDIAN_API_KEY")); }
     public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
@@ -59,6 +63,20 @@ public class TGClient {
 
 
         return results;
+    }
+    public ArrayList<TGArticle> importArticleArrayListFromFile(String path) {
+        try {
+            String data = IO.readFile(path);
+            final FileFormat fileFormat = FileFormat.valueOf(IO.getFileExtension(path).toUpperCase());
+
+            TGResponseWrapper root = Marshalling.deserialize(fileFormat, data, TGResponseWrapper.class);
+            return root.getResponse().getResults();
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidFileFormatException(IO.getFileExtension(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setApiKey(String apiKey) {
