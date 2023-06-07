@@ -16,4 +16,9 @@ public class IO {
                 StandardOpenOption.CREATE,
                 StandardOpenOption.TRUNCATE_EXISTING);
     }
+    public static String getFileExtension(String path) {
+        int dotIndex = path.lastIndexOf(".");
+        if (dotIndex < 0) return "";
+        return path.substring(dotIndex + 1);
+    }
 }
