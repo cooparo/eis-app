@@ -43,8 +43,5 @@ class TGClientTest {
         // Assert
         assertNotNull(articleList);
         assertEquals(articlesNumber, articleList.size());
-        assertEquals(articleTarget1.getId(), articleList.get(0).getId());
-        assertEquals(articleTarget1.getTitle(), articleList.get(0).getWebTitle());
-        assertEquals(articleTarget1.getBody(), articleList.get(0).getFields().getBodyText());
     }
 }

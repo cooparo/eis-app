@@ -10,6 +10,9 @@ import it.unipd.dei.eis.utils.Marshalling;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class TGClient {
 
@@ -37,28 +40,41 @@ public class TGClient {
         int pagesNumber = articlesNumber > 200 ? (int) Math.ceil(articlesNumber / 200.0) : 1;
 
         ArrayList<TGArticle> results = new ArrayList<>();
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
         for (int i = 1; i <= pagesNumber; i++) {
+            int currentPageSize = Math.min(articlesNumber - (i - 1) * MAX_PAGE_SIZE, MAX_PAGE_SIZE);
+            final int currentPage = i;
 
-            // The last page may have a different page size
-            int pageSize;
-            if (i == pagesNumber && articlesNumber % 200 != 0) { // Last page
-                pageSize = articlesNumber - MAX_PAGE_SIZE * (pagesNumber - 1);
-            } else pageSize = Math.min(articlesNumber, MAX_PAGE_SIZE);
-
-            TGResponseWrapper root;
-            String url = BASE_URL + "?q=" + formattedQuery + "&page=" + i + "&show-fields=body-text&page-size=" + pageSize + "&api-key=" + apiKey;
-
-            String data = HTTPClient.get(url).getData();
-            root = Marshalling.deserialize(FileFormat.JSON, data, TGResponseWrapper.class);
-
-            TGResponse response = root.getResponse();
-
-            results.addAll(response.getResults());
+            executorService.execute(() -> {
+                ArrayList<TGArticle> pageResults = fetchArticles(formattedQuery, currentPage, currentPageSize);
+                synchronized (results) { // Synchronize the access to the results ArrayList
+                    results.addAll(pageResults);
+                }
+            });
         }
 
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        }
 
         return results;
+    }
+
+    private ArrayList<TGArticle> fetchArticles(String query, int page, int pageSize) {
+        final String showFields = "body-text";
+        String url = String.format("%s?q=%s&page=%d&page-size=%d&show-fields=%s&api-key=%s",
+                BASE_URL, query, page, pageSize, showFields, apiKey);
+
+        String data = HTTPClient.get(url).getData();
+        TGResponseWrapper root = Marshalling.deserialize(FileFormat.JSON, data, TGResponseWrapper.class);
+        TGResponse response = root.getResponse();
+
+        return response.getResults();
     }
 
     public void setApiKey(String apiKey) {
