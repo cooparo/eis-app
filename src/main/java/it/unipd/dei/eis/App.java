@@ -1,7 +1,10 @@
 package it.unipd.dei.eis;
 
-import it.unipd.dei.eis.core.Downloader;
 import it.unipd.dei.eis.core.Ranker;
+import it.unipd.dei.eis.newspapers.NewYorkTimes.NYTController;
+import it.unipd.dei.eis.newspapers.TheGuardian.TheGuardianController;
+import it.unipd.dei.eis.newspapers.NewYorkTimes.NYTArticleAdapter;
+import it.unipd.dei.eis.newspapers.TheGuardian.TGArticleAdapter;
 import it.unipd.dei.eis.repository.ArticleRepository;
 import it.unipd.dei.eis.utils.FileFormat;
 
@@ -20,12 +23,17 @@ public class App {
         System.out.println(repository.getAll().get(0).getTitle());
         System.out.println(repository.getAll().get(0).getBody());
     }
+
     public static void download() throws IOException {
-        Downloader downloader = new Downloader(repository);
-        downloader.theGuardianReader();
+        TheGuardianController tgController = new TheGuardianController();
+        repository.add(tgController.downloader(), TGArticleAdapter::new);
+
+        NYTController nytController = new NYTController();
+        repository.add(nytController.downloader(), NYTArticleAdapter::new);
 
         repository.saveToDisk();
     }
+
     public static void rank() throws IOException {
         repository.loadFromDisk();
 
