@@ -14,6 +14,8 @@ import java.io.StringWriter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Marshalling {
     private static ObjectMapper getMapper(FileFormat f) {
@@ -67,6 +69,11 @@ public class Marshalling {
         }
         Type baseType = ((ParameterizedType) parentType).getActualTypeArguments()[0];
 
+        // Parsing CSV header and camel case every column
+        final String csvHeader = content.substring(0, content.indexOf('\n'));
+        final String headerlessCsv = content.substring(content.indexOf('\n'));
+        content = csvHeaderToCamelCase(csvHeader) + headerlessCsv;
+
         CsvSchema headerSchema = CsvSchema.emptySchema().withHeader();
         return (R) mapper.readerFor(((Class<?>) baseType))
                 .with(headerSchema)
@@ -90,6 +97,9 @@ public class Marshalling {
             }
             return strW.toString();
         }
+    }
+    private static String csvHeaderToCamelCase(String csvHeader) {
+        return Arrays.stream(csvHeader.split(",")).map(Words::toCamelCase).collect(Collectors.joining(","));
     }
 
     public static class TypeReference<T> extends com.fasterxml.jackson.core.type.TypeReference<T> {}
