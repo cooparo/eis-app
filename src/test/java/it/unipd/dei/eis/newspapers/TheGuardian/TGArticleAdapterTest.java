@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.Instant;
+
 class TGArticleAdapterTest {
 
     private TGArticleAdapter theGuardianAdapter;
@@ -18,11 +20,13 @@ class TGArticleAdapterTest {
         // Set up a test TGArticle object
         String webTitle = "Test Article";
         String bodyText = "This is the test article's body text";
+        Instant publicationTime = Instant.parse("2017-02-03T10:37:30.00Z");
         TGFields fields = new TGFields();
         fields.setBodyText(bodyText);
         testArticle = new TGArticle();
         testArticle.setWebTitle(webTitle);
         testArticle.setFields(fields);
+        testArticle.setWebPublicationDate(publicationTime);
 
         // Create the TheGuardianAdapter instance
         theGuardianAdapter = new TGArticleAdapter(testArticle);
@@ -52,6 +56,19 @@ class TGArticleAdapterTest {
         // Assert
         assertNotNull(actualBody);
         assertEquals(expectedBody, actualBody);
+    }
+
+    @Test
+    void getPublicationTime_ReturnsPublicationTime() {
+        // Arrange
+        Instant expectedPublicationTime = Instant.parse("2017-02-03T10:37:30.00Z");
+
+        // Act
+        Instant actualPublicationTime = theGuardianAdapter.getPublicationTime();
+
+        // Assert
+        assertNotNull(actualPublicationTime);
+        assertEquals(expectedPublicationTime, actualPublicationTime);
     }
 
 }
