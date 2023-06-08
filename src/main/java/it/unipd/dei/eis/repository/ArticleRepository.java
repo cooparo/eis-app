@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class ArticleRepository implements IRepository<IArticle> {
 
     private final ArrayList<IArticle> storage;
-    private final FileFormat fileFormat;
+    private FileFormat fileFormat;
     private final static String BASE_PATH = "src/main/resources/";
 
     public ArticleRepository() {
@@ -27,6 +27,9 @@ public class ArticleRepository implements IRepository<IArticle> {
         this.fileFormat = fileFormat;
         storage = ArticleStorage.getInstance().getArticleList();
     }
+
+    public FileFormat getFileFormat() { return fileFormat; }
+    public void setFileFormat(FileFormat format) { this.fileFormat = format; }
 
     public void add(IArticle... articles) {
         storage.addAll(Arrays.asList(articles));
