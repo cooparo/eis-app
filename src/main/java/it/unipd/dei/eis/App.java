@@ -27,8 +27,8 @@ public class App {
         options.addOption(new Option("r", "rank", false, "Ranks the articles."));
 
         options.addOption(new Option("n", "newspaper", true,
-                "The Newspaper you want to download from, it must be equal to the name of the package"));
-        options.addOption(new Option("q", "query", true, "The query"));
+                "The Newspaper you want to download from, it must be equal to the name of the package."));
+        options.addOption(new Option("q", "query", true, "The query."));
         options.addOption(new Option("p", "path", true, "The path to the file."));
         options.addOption(new Option("f", "fileFormat", true, "File format for storage, " +
                 "the available formats are: " + // JSON, XML, CSV [for example]
@@ -51,8 +51,15 @@ public class App {
 
             if (cmd.hasOption("d")) {
 
-                if (cmd.hasOption("q") && cmd.hasOption("p"))
-                    throw new ParseException("You can't select both q and p options.");
+                if (cmd.hasOption("n")) {
+                    if (cmd.hasOption("q") && cmd.hasOption("p"))
+                        throw new ParseException("You can't select both q and p options.");
+                    if (!(cmd.hasOption("q") || cmd.hasOption("p")))
+                        throw new ParseException("You must specify either a query or a path to a file.");
+                } else {
+                    if (cmd.hasOption("q") || cmd.hasOption("p"))
+                        throw new ParseException("You must specify a newspaper.");
+                }
 
                 // repository.loadFromDisk(); // TODO handle non-existent file
 
