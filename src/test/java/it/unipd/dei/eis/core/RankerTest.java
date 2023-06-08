@@ -3,6 +3,8 @@ package it.unipd.dei.eis.core;
 import it.unipd.dei.eis.interfaces.IArticle;
 import it.unipd.dei.eis.repository.Article;
 import it.unipd.dei.eis.repository.ArticleRepository;
+import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,9 +14,10 @@ class RankerTest {
 
     Ranker ranker;
     ArrayList<IArticle> articleArrayList;
+    ArticleRepository repository;
 
-    @Test
-    void rankTest() {
+    @BeforeEach
+    void setUp() {
         IArticle article1 = new Article(
                 "01",
                 "Trump lawyer said to have been waved off searching office for secret records",
@@ -39,14 +42,15 @@ class RankerTest {
         articleArrayList.add(article2);
         articleArrayList.add(article3);
 
-        ranker = new Ranker(new ArticleRepository());
-        ranker.rank();
+        repository = new ArticleRepository();
+    }
 
-        Map<String, Integer> wordFrequencyMap = ranker.getWordFrequencyMap();
-        System.out.println("Numbers of words: " + wordFrequencyMap.size());
+    @Test
+    void rankTest() {
+        ranker = new Ranker(repository);
 
-        for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
+        Map<String, Integer> wordFrequencyMap = ranker.rank();
+
+        Assert.assertTrue(wordFrequencyMap.size() > 0);
     }
 }
