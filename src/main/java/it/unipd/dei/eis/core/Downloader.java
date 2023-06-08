@@ -65,32 +65,28 @@ public class Downloader {
             }
             Constructor<?> newspaperAdapterConstructor = newspaperAdapter.getDeclaredConstructor((Class<?>) baseType);
 
-            repository.add(articles, (article) -> {
-                    try {
-                        return (IArticle) newspaperAdapterConstructor.newInstance(article);
-                    } catch (InstantiationException e) { // TODO: handle better exceptions
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    }
-            });
+            for (Object article : articles) {
+                repository.add((IArticle) newspaperAdapterConstructor.newInstance(article));
+            }
 
             repository.saveToDisk();
 
-        } catch (NoSuchMethodException e) { // TODO: handle better exceptions
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Could not save the articles in the hard disk.", e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getCause());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Could not find the client or the article adapter for the newspaper " +
+                    "you have requested. Please add them or verify if they follow the syntax explained in the manual.");
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Functionality not supported. Verify that the methods signatures in the client " +
+                    "follow the instructions provided in the manual.");
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Could not instantiate the client or the adapter. " +
+                    "Please verify that their constructors follow the instructions provided in the manual.");
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Could not access to the constructors or the methods of the client or the adapter. " +
+                    "Verify that the constructors or the methods are public, where required (read the manual).");
         }
 
     }

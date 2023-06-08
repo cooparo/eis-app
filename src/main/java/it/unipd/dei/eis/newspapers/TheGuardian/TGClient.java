@@ -75,7 +75,7 @@ public class TGClient {
         } catch (IllegalArgumentException e) {
             throw new InvalidFileFormatException(IO.getFileExtension(path));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Could not load from disk your file.", e);
         }
     }
 

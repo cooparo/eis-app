@@ -7,6 +7,8 @@ import it.unipd.dei.eis.utils.FileFormat;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class App {
     private static final ArticleRepository repository = new ArticleRepository();
@@ -28,9 +30,11 @@ public class App {
                 "The Newspaper you want to download from, it must be equal to the name of the package"));
         options.addOption(new Option("q", "query", true, "The query"));
         options.addOption(new Option("p", "path", true, "The path to the file."));
-        options.addOption(new Option("f", "fileFormat", true, "File format for storage"));
+        options.addOption(new Option("f", "fileFormat", true, "File format for storage, " +
+                "the available formats are: " + // JSON, XML, CSV [for example]
+                Arrays.stream(FileFormat.values()).map((Enum::name)).collect(Collectors.joining(", "))));
 
-        HelpFormatter formatter = new HelpFormatter();
+
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
 
@@ -72,12 +76,21 @@ public class App {
                 ranker.saveOnTxt("ranked.txt");
             }
 
-        } catch (ParseException | IllegalArgumentException e) { // TODO handle better
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().contains("No enum constant")) {
+                System.err.println("ERROR - File format not valid.");
+                printHelp(options);
+            } else throw e;
+        } catch (ParseException e) {
             System.err.println("ERROR - parsing command line:");
             System.err.println(e.getMessage());
-            formatter.printHelp("eis-app -{d,r,dr} [options]", options); // TODO write it better
+            printHelp(options);
         }
+    }
 
+    private static void printHelp(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("eis-app -{d,r,dr} [options]", options);
     }
 }
 
