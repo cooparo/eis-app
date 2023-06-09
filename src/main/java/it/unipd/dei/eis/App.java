@@ -1,5 +1,6 @@
 package it.unipd.dei.eis;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import it.unipd.dei.eis.core.Downloader;
 import it.unipd.dei.eis.core.Ranker;
 import it.unipd.dei.eis.repository.ArticleRepository;
@@ -14,9 +15,12 @@ public class App {
     private static final ArticleRepository repository = new ArticleRepository();
 
     public static void main(String[] args) throws IOException {
-        // TODO: configure dotenv
 
-        // EXAMPLES
+        // Dotenv configuration
+        Dotenv dotenv = Dotenv.configure().filename("api.env").load();
+        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+
+        // CLI, EXAMPLES & IMPLEMENTATION
         // eis-app -dr -n TheGuardian -q pasta
         // eis-app --download --rank --newspaper TheGuardian --query pasta
         // eis-app -d -f CSV -p "./src/main/resources/the_guardian_response_1.json"

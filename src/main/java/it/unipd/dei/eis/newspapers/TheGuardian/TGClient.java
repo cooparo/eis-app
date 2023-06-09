@@ -26,7 +26,7 @@ public class TGClient {
 
     private String apiKey;
 
-    public TGClient() { this(System.getenv("THE_GUARDIAN_API_KEY")); }
+    public TGClient() { this(System.getProperty("THE_GUARDIAN_API_KEY")); }
     public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
