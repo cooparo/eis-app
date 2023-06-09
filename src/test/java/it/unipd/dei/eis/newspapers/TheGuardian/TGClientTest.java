@@ -1,11 +1,11 @@
 package it.unipd.dei.eis.newspapers.TheGuardian;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import it.unipd.dei.eis.repository.Article;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,9 +19,8 @@ class TGClientTest {
 
     @BeforeEach
     void setUp() {
-        // Set up the TheGuardianClient instance with your API key
-        final String API_KEY = System.getenv("API_KEY");
-        theGuardianClient = new TGClient(API_KEY);
+        Dotenv dotenv = Dotenv.configure().filename("api.env").load();
+        theGuardianClient = new TGClient(dotenv.get("THE_GUARDIAN_API_KEY"));
 
         articlesNumber = 1000;
         query = "nuclear power";
