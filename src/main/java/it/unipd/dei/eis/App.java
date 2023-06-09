@@ -34,12 +34,20 @@ public class App {
                 "the available formats are: " + // JSON, XML, CSV [for example]
                 Arrays.stream(FileFormat.values()).map((Enum::name)).collect(Collectors.joining(", "))));
 
+        options.addOption(new Option("h", "help", false,
+                "Prints a summary of all supported commands."));
+
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
 
         try {
             cmd = parser.parse(options, args);
+
+            if (cmd.hasOption("h")) {
+                printHelp(options);
+                return;
+            }
 
             if (!(cmd.hasOption("d")) && !(cmd.hasOption("r")))
                 throw new ParseException("Almost one of the options 'd' and 'r' must be present.");
@@ -98,6 +106,12 @@ public class App {
     private static void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("eis-app -{d,r,dr} [options]", options);
+
+        System.out.println();
+        System.out.println("Examples:");
+        System.out.println("eis-app -dr -n TheGuardian -q pasta -f XML");
+        System.out.println("eis-app --download --rank --newspaper TheGuardian --query pasta");
+        System.out.println("eis-app --download -n NewYorkTimes -p \"./src/main/resources/nytimes_articles_v2.csv\"");
     }
 }
 
