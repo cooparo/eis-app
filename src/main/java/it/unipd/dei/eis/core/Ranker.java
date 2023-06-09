@@ -98,10 +98,13 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
-    public String getWordFrequencyReport() {
+    public String getWordFrequencyReport() { return getWordFrequencyReport(wordFrequencyMap.size()); }
+    public String getWordFrequencyReport(int limit) {
         StringBuilder result = new StringBuilder();
 
+        int index = 0;
         for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
+            if (index++ > limit) break;
             result.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
         }
         return result.toString();
