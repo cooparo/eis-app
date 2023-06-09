@@ -32,7 +32,7 @@ public class Downloader {
 
     private void download(String newspaper, String arg, boolean simulate) {
 
-        final String shortNewspaper = getUpperCaseLetters(newspaper);
+        final String shortNewspaper = extractUpperCaseLetters(newspaper);
         final String BASE_PACKAGE = "it.unipd.dei.eis.newspapers." + newspaper + "." + shortNewspaper;
 
         try {
@@ -109,8 +109,8 @@ public class Downloader {
         return ((ParameterizedType) returnType).getActualTypeArguments()[0];
     }
 
-    private String getUpperCaseLetters(String text) { // TODO: better name?
-        StringBuilder uppercaseLetters = new StringBuilder(); // TODO: better name?
+    private String extractUpperCaseLetters(String text) {
+        StringBuilder uppercaseLetters = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c >= 'A' && c <= 'Z')
