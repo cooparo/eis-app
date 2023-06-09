@@ -94,6 +94,9 @@ public class App {
                 repository.loadFromDisk();
 
                 Ranker ranker = new Ranker(repository);
+                ranker.rank();
+                System.out.println(ranker.getWordFrequencyReport(10));
+                System.out.println("For more words, look into the file ranked.txt");
                 ranker.saveOnTxt("ranked.txt");
             }
 

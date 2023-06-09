@@ -6,7 +6,7 @@
 
     <groupId>it.unipd.dei.eis</groupId>
     <artifactId>eis-app</artifactId>
-    <version>1.1.8-SNAPSHOT</version>
+    <version>1.1.9-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -74,7 +74,7 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>${corenlp.version}</version>
-            <classifier>models-english</classifier>
+            <classifier>models</classifier>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
