@@ -82,7 +82,7 @@ public class ArticleRepository implements IRepository<IArticle> {
     }
     public void loadFromDisk() throws IOException {
         String serializedStorage = IO.readFile(getFilePath());
-        ArrayList<IArticle> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<IArticle>>(){});
+        ArrayList<Article> container = Marshalling.deserialize(fileFormat, serializedStorage, new Marshalling.TypeReference<ArrayList<Article>>(){});
         add(container.toArray(new IArticle[0]));
     }
 }
