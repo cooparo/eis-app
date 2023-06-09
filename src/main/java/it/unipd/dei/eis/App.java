@@ -8,13 +8,14 @@ import it.unipd.dei.eis.utils.FileFormat;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class App {
     private static final ArticleRepository repository = new ArticleRepository();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         // Dotenv configuration
         Dotenv dotenv = Dotenv.configure().filename("api.env").load();
@@ -73,7 +74,8 @@ public class App {
                         throw new ParseException("You must specify a newspaper.");
                 }
 
-                // repository.loadFromDisk(); // TODO handle non-existent file
+                try { repository.loadFromDisk(); System.out.println("Articles loaded.\n"); }
+                catch (NoSuchFileException e) { System.out.println("No previously downloaded articles found.\n"); }
 
                 Downloader downloader = new Downloader(repository);
 
@@ -104,6 +106,10 @@ public class App {
             System.err.println("ERROR - parsing command line:");
             System.err.println(e.getMessage());
             printHelp(options);
+        } catch (NoSuchFileException e) {
+            System.err.println("ERROR - Could not find file " + e.getFile()); // TODO: more descriptive error?
+        } catch (IOException e) {
+            System.err.println("ERROR - " + e.getMessage());
         }
     }
 
