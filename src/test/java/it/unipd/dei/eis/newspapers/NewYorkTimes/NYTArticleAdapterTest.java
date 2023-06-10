@@ -3,6 +3,7 @@ package it.unipd.dei.eis.newspapers.NewYorkTimes;
 import it.unipd.dei.eis.newspapers.NewYorkTimes.models.NYTArticle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.time.Instant;
 
 class NYTArticleAdapterTest {
 
@@ -43,6 +44,19 @@ class NYTArticleAdapterTest {
 
         // Verify that the getBody() method returns the expected body content
         Assertions.assertEquals("Sample article body content", adapter.getBody());
+    }
+
+    @Test
+    public void testGetPublicationTime() {
+        // Create a mock NYTArticle object with a specific publication time
+        NYTArticle nytArticle = new NYTArticle();
+        nytArticle.setDate(Instant.parse("2017-02-03T10:37:30.00Z"));
+
+        // Create an instance of NewYorkTimesAdapter using the mock NYTArticle
+        NYTArticleAdapter adapter = new NYTArticleAdapter(nytArticle);
+
+        // Verify that the getPublicationTime() method returns the expected publication time
+        Assertions.assertEquals(Instant.parse("2017-02-03T10:37:30.00Z"), adapter.getPublicationTime());
     }
 
 }
