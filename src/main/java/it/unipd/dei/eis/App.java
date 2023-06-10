@@ -42,7 +42,6 @@ public class App {
         options.addOption(new Option("h", "help", false,
                 "Prints a summary of all supported commands."));
 
-
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
 
