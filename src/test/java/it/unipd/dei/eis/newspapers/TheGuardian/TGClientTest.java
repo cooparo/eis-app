@@ -44,4 +44,5 @@ class TGClientTest {
         assertNotNull(articleList);
         assertEquals(articlesNumber, articleList.size());
     }
+
 }

@@ -18,18 +18,35 @@ class TGArticleAdapterTest {
     @BeforeEach
     void setUp() {
         // Set up a test TGArticle object
+        String id = "Test id";
         String webTitle = "Test Article";
         String bodyText = "This is the test article's body text";
         Instant publicationTime = Instant.parse("2017-02-03T10:37:30.00Z");
+
         TGFields fields = new TGFields();
         fields.setBodyText(bodyText);
+
         testArticle = new TGArticle();
+        testArticle.setId(id);
         testArticle.setWebTitle(webTitle);
         testArticle.setFields(fields);
         testArticle.setWebPublicationDate(publicationTime);
 
         // Create the TheGuardianAdapter instance
         theGuardianAdapter = new TGArticleAdapter(testArticle);
+    }
+
+    @Test
+    void getId_ReturnsId() {
+        // Arrange
+        String expectedId = "Test Id";
+
+        // Act
+        String actualId = theGuardianAdapter.getId();
+
+        // Assert
+        assertNotNull(actualId);
+        assertEquals(expectedId, actualId);
     }
 
     @Test
