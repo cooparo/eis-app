@@ -122,7 +122,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${groupId}.App</mainClass>
+                                    <mainClass>${project.groupId}.App</mainClass>
                                 </transformer>
                             </transformers>
                             <filters>
