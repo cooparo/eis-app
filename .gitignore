@@ -39,3 +39,4 @@ build/
 
 ### API ###
 api.env
+env
