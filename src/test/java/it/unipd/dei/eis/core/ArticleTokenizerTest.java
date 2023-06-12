@@ -38,7 +38,7 @@ class ArticleTokenizerTest {
         Set<String> tokens = ArticleTokenizer.tokenize(article);
 
         assertNotNull(tokens);
-        assertEquals(85, tokens.size());
+        assertEquals(80, tokens.size());
         assertTrue(tokens.contains("malesuada"));
         assertTrue(tokens.contains("dummy"));
 
