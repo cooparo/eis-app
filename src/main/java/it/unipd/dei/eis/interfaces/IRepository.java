@@ -7,5 +7,6 @@ public interface IRepository<T> {
     ArrayList<T> getAll();
     void update(T oldT, T newT);
     void remove(String id);
+    int size();
     ArrayList<T> FindBySpecification(ISpecification spec);
 }
