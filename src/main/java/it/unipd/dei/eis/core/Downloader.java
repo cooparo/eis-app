@@ -118,26 +118,4 @@ public class Downloader {
         }
         return uppercaseLetters.toString();
     }
-
-
-    // OLD METHODS, CLASSIC USAGE
-    public void theGuardianDownloader() {
-        final String API_KEY = System.getenv("THE_GUARDIAN_API_KEY");
-        TGClient client = new TGClient(API_KEY);
-
-        ArrayList<TGArticle> articles = client.getArticleArrayList("nuclear power", 1000);
-
-        repository.add(articles, TGArticleAdapter::new);
-
-    }
-
-    public void theGuardianReader() throws IOException {
-        String text = IO.readFile("./src/main/resources/the_guardian_response_1.json");
-        TGResponseWrapper root = Marshalling.deserialize(FileFormat.JSON, text, TGResponseWrapper.class);
-
-        ArrayList<TGArticle> articles = root.getResponse().getResults();
-        repository.add(articles, TGArticleAdapter::new);
-    }
-
-
 }
