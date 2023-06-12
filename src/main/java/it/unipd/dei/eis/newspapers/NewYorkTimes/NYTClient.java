@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class NYTClient {
     public NYTClient() {}
 
+    /**
+     * Imports an ArrayList of NYTArticle from a file.
+     * @param path the path of the file to import
+     * @return an ArrayList of NYTArticle
+     */
     public ArrayList<NYTArticle> importArticleArrayListFromFile(String path) {
         try {
             String data = IO.readFile(path);

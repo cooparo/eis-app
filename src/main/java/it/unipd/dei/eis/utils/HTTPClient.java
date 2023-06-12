@@ -33,6 +33,13 @@ public class HTTPClient {
     public static Response get(String url) {
         return request(HTTPMethod.GET, url);
     }
+
+    /**
+     * Sends an HTTP request to the specified URL.
+     * @param method the HTTP method to use
+     * @param url the URL to send the request to
+     * @return the response from the server
+     */
     public static Response request(HTTPMethod method, String url) {
 
         try {

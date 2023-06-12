@@ -22,8 +22,7 @@ public class TGClient {
     private final static String BASE_URL = "https://content.guardianapis.com/search";
     private final static String ENCODING_UTF8 = "UTF-8";
     private final static int MAX_PAGE_SIZE = 200;
-    private final static int MAX_ARTICLES_NUMBER = 5000;
-
+    private final static int MAX_ARTICLES_NUMBER = 2000;
     private String apiKey;
 
     public TGClient() { this(System.getProperty("THE_GUARDIAN_API_KEY")); }
@@ -31,6 +30,12 @@ public class TGClient {
         this.apiKey = apiKey;
     }
 
+    /***
+     * Fetches articles from The Guardian API. Use multiple threads to speed up the process.
+     * @param query The query to be searched
+     * @param articlesNumber The number of articles to be fetched
+     * @return An ArrayList of TGArticle objects
+     */
     public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) {
         if (articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
         if (articlesNumber > MAX_ARTICLES_NUMBER) throw new IllegalArgumentException("Too many articles requested, max " + MAX_ARTICLES_NUMBER + " articles allowed");
@@ -71,6 +76,12 @@ public class TGClient {
 
         return results;
     }
+
+    /***
+     * Imports articles from a file.
+     * @param path The path of the file.
+     * @return An ArrayList of TGArticle objects.
+     */
     public ArrayList<TGArticle> importArticleArrayListFromFile(String path) {
         try {
             String data = IO.readFile(path);
@@ -86,6 +97,13 @@ public class TGClient {
         }
     }
 
+    /***
+     * Fetches articles from The Guardian API.
+     * @param query The query to search for.
+     * @param page The page number.
+     * @param pageSize The number of articles per page.
+     * @return An ArrayList of TGArticle objects.
+     */
     private ArrayList<TGArticle> fetchArticles(String query, int page, int pageSize) {
         final String showFields = "body-text";
         String url = String.format("%s?q=%s&page=%d&page-size=%d&show-fields=%s&api-key=%s",

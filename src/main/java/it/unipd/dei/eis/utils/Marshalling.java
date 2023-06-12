@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Marshalling {
+
     private static ObjectMapper getMapper(FileFormat f) {
         switch (f) {
             case XML:
@@ -29,6 +30,15 @@ public class Marshalling {
                 return new ObjectMapper();
         }
     }
+
+    /**
+     * Deserialize a file to an object of type R.
+     * @param fileFormat the file format
+     * @param content the file content to be deserialized
+     * @param type the object type
+     * @param <R> the object type
+     * @return the deserialized object
+     */
     public static <R> R deserialize(FileFormat fileFormat, String content, Class<R> type) {
         ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
@@ -38,6 +48,15 @@ public class Marshalling {
             throw new MarshallingException(e.getMessage());
         }
     }
+
+    /**
+     * Deserialize a file to an object of type R.
+     * @param fileFormat the file format
+     * @param content the file content to be deserialized
+     * @param type the reference to the object type
+     * @param <R> the object type
+     * @return the deserialized object
+     */
     public static <R> R deserialize(FileFormat fileFormat, String content, TypeReference<R> type) {
         ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
@@ -47,8 +66,14 @@ public class Marshalling {
         } catch (IOException e) {
             throw new MarshallingException(e.getMessage());
         }
-
     }
+
+    /**
+     * Serialize an object to a string.
+     * @param fileFormat the file format
+     * @param object the object to be serialized
+     * @return the serialized string
+     */
     public static String serialize(FileFormat fileFormat, Object object) {
         ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
@@ -60,6 +85,13 @@ public class Marshalling {
         }
     }
 
+    /**
+     * Deserialize a CSV file to an object of type R.
+     * @param mapper the mapper
+     * @param content the file content to be deserialized
+     * @param type the reference to the object type
+     * return the deserialized object
+     */
     private static <R> R deserializeCsv(ObjectMapper mapper, String content, TypeReference<R> type) throws IOException {
         if (!(mapper instanceof CsvMapper)) throw new IllegalArgumentException("mapper must be of type CsvMapper.");
 
@@ -79,6 +111,13 @@ public class Marshalling {
                 .with(headerSchema)
                 .readValues(content).readAll();
     }
+
+    /**
+     * Serialize an object to a CSV string.
+     * @param mapper the mapper
+     * @param object the object to be serialized
+     * return the serialized string
+     */
     private static String serializeCsv(ObjectMapper mapper, Object object) throws IOException {
         if (!(mapper instanceof CsvMapper)) throw new IllegalArgumentException("mapper must be of type CsvMapper.");
         CsvMapper csvMapper = (CsvMapper) mapper;
@@ -98,10 +137,20 @@ public class Marshalling {
             return strW.toString();
         }
     }
+
+    /**
+     * Convert a CSV header to camel case.
+     * @param csvHeader the CSV header
+     * return the camel case header
+     */
     private static String csvHeaderToCamelCase(String csvHeader) {
         return Arrays.stream(csvHeader.split(",")).map(Words::toCamelCase).collect(Collectors.joining(","));
     }
 
+    /**
+     * Type reference for deserialization.
+     * @param <T> the type
+     */
     public static class TypeReference<T> extends com.fasterxml.jackson.core.type.TypeReference<T> {}
 
 }
