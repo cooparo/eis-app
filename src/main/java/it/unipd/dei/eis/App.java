@@ -89,9 +89,6 @@ public class App {
                 } else {
                     downloader.download("TheGuardian", "pizza");
                 }
-
-//                System.out.println(repository.getAll().get(0).getTitle());
-//                System.out.println(repository.getAll().get(0).getBody());
             }
             if (cmd.hasOption("r")) {
                 repository.loadFromDisk();
