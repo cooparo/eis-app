@@ -32,11 +32,13 @@ public class ArticleTokenizer {
         // Merge title and body
         String text = article.getTitle() + " " + article.getBody();
 
+        //TODO: se rimuovo la puntaggiato funziona la lemmizzazione?
         // Removes punctuation
         text = text.replaceAll("[^a-zA-Z ]", "").toLowerCase();
 
         Set<String> tokens = new TreeSet<>();
 
+        // TODO: mettiamo tutto o no?
         // Add all the tokens to the set
         tokens.addAll(extractTokens(text));
         // Add all the lemmas to the set

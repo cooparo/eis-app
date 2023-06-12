@@ -27,53 +27,42 @@ public class Ranker {
      */
     public Map<String, Integer> rank() {
 
-        for (IArticle article : repository.getAll()) {
+        // For each article, tokenize it and update the wordFrequencyMap
+        for (IArticle article : repository.getAll()) { //TODO: parallelize
             Set<String> tokenSet = ArticleTokenizer.tokenize(article);
 
             for (String word : tokenSet) {
-                // Check if the word is already present in the wordFrequencyMap
-                boolean wordExists = false;
-                for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
-                    if (entry.getKey().equals(word)) {
-                        // Word is already present, increment the counter
-                        int frequency = entry.getValue();
-                        entry.setValue(frequency + 1);
-                        wordExists = true;
-                        break;
-                    }
-                }
-                // Word is not present, add it to the wordFrequencyMap
-                if (!wordExists) {
-                    wordFrequencyMap.put(word, 1);
-                }
+
+                // Check if the word is already present in the wordFrequencyMap (previous articles)
+                Integer value = wordFrequencyMap.get(word);
+
+                if (value == null) value = 0;
+                wordFrequencyMap.put(word, value + 1);
+
             }
         }
 
-        clearUsingStopList();
+        clearUsingStopList(); // TODO: check se si può fare in altro modo
         wordFrequencyMap = sortMapByValueThenByKey(wordFrequencyMap);
         return wordFrequencyMap;
     }
 
-    public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) {
+    public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) { // TODO: metodo migliore?
         // Create a compound comparator to sort by value (descending) and then by key (ascending)
         Comparator<Map.Entry<String, Integer>> valueComparator = Map.Entry.comparingByValue(Comparator.reverseOrder());
         Comparator<Map.Entry<String, Integer>> keyComparator = Map.Entry.comparingByKey();
         Comparator<Map.Entry<String, Integer>> compoundComparator = valueComparator.thenComparing(keyComparator);
 
         // Sorting by value (descending) and then by key (ascending)
-        List<Map.Entry<String, Integer>> sortedByValueDescendingThenKeyAscending = wordFrequencyMap.entrySet()
+        wordFrequencyMap = wordFrequencyMap.entrySet()
                 .stream()
                 .sorted(compoundComparator)
-                .collect(Collectors.toList());
-
-
-        wordFrequencyMap = sortedByValueDescendingThenKeyAscending.stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
         return wordFrequencyMap;
     }
 
-    private void clearUsingStopList() { //TODO: use CoreLNP custom's stop-list
-        Set<String> words = new HashSet<>();
+    private void clearUsingStopList() {
 
         try {
             File file = new File(Ranker.STOP_LIST_PATH);
@@ -81,16 +70,12 @@ public class Ranker {
 
             while (scanner.hasNextLine()) {
                 String word = scanner.nextLine().trim();
-                words.add(word);
+                wordFrequencyMap.remove(word);
             }
 
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-
-        for (String word : words) {
-            wordFrequencyMap.remove(word);
         }
     }
 
