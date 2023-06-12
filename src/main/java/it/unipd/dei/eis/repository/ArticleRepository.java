@@ -62,6 +62,9 @@ public class ArticleRepository implements IRepository<IArticle> {
     }
 
     @Override
+    public int size() { return storage.size(); }
+
+    @Override
     public ArrayList<IArticle> FindBySpecification(ISpecification spec) {
         ArrayList<IArticle> articleArrayList = new ArrayList<>();
 
