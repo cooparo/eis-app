@@ -18,7 +18,10 @@ class TGClientTest {
 
     @BeforeEach
     void setUp() {
-        Dotenv dotenv = Dotenv.configure().filename("api.env").load();
+        Dotenv dotenv = Dotenv.configure()
+                .directory("./src/test/resources")
+                .filename("env")
+                .load();
         theGuardianClient = new TGClient(dotenv.get("THE_GUARDIAN_API_KEY"));
 
         articlesNumber = 1000;

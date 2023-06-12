@@ -18,12 +18,16 @@ public class App {
     public static void main(String[] args) {
 
         // Dotenv configuration
-        Dotenv dotenv = Dotenv.configure().filename("api.env").load();
+        Dotenv dotenv = Dotenv
+                .configure()
+                .directory("./src/main/resources")
+                .filename("env")
+                .load();
         dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
 
         // CLI, EXAMPLES & IMPLEMENTATION
         // eis-app -dr -n TheGuardian -q pasta
-        // eis-app --download --rank --newspaper TheGuardian --query pasta
+        // eis-app --download --rank --newspaper TheGuardian --query "pasta"
         // eis-app -d -f CSV -p "./src/main/resources/the_guardian_response_1.json"
 
         Options options = new Options();
@@ -86,8 +90,8 @@ public class App {
                     downloader.download("TheGuardian", "pizza");
                 }
 
-                System.out.println(repository.getAll().get(0).getTitle());
-                System.out.println(repository.getAll().get(0).getBody());
+//                System.out.println(repository.getAll().get(0).getTitle());
+//                System.out.println(repository.getAll().get(0).getBody());
             }
             if (cmd.hasOption("r")) {
                 repository.loadFromDisk();

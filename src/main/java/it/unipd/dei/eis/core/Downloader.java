@@ -48,7 +48,7 @@ public class Downloader {
             // Preparing arguments for the invocation of the method
             Object[] arguments;
             if (simulate) arguments = new Object[] {arg};
-            else arguments = new Object[] {arg, 10};
+            else arguments = new Object[] {arg, 100};
 
             // Creating an instance of the Newspaper Client
             Object clientInstance = newspaperClient.getDeclaredConstructor().newInstance();
