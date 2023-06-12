@@ -32,21 +32,10 @@ public class ArticleTokenizer {
         // Merge title and body
         String text = article.getTitle() + " " + article.getBody();
 
-        //TODO: se rimuovo la puntaggiato funziona la lemmizzazione?
         // Removes punctuation
-        text = text.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+        text = text.replaceAll("[^a-zA-Z' ]", " ");
 
-        Set<String> tokens = new TreeSet<>();
-
-        // TODO: mettiamo tutto o no?
-        // Add all the tokens to the set
-        tokens.addAll(extractTokens(text));
-        // Add all the lemmas to the set
-        tokens.addAll(extractLemmas(text));
-        // Add all the nouns to the set
-        tokens.addAll(extractNouns(text));
-
-        return tokens;
+        return extractLemmas(text);
 
     }
 
@@ -63,7 +52,6 @@ public class ArticleTokenizer {
         // build pipeline
         return new StanfordCoreNLP(props);
     }
-
 
     /**
      * Estrae i token dal testo in input, utilizzando la sequenza di annotatori specificata.
@@ -112,9 +100,7 @@ public class ArticleTokenizer {
         nlpPipeline.annotate(document);
 
         Set<String> distinctLemmas = new TreeSet<>();
-        // tokens
         for (CoreLabel token : document.tokens()) {
-
             String lemma = token.get(CoreAnnotations.LemmaAnnotation.class).toLowerCase();
 
             distinctLemmas.add(lemma);
@@ -152,7 +138,6 @@ public class ArticleTokenizer {
             if (NOUN_POS_TAGS.contains(pos.toUpperCase())) {
                 distinctNouns.add(word.toLowerCase());
             }
-
         }
 
         return distinctNouns;
