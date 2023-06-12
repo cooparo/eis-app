@@ -4,8 +4,13 @@ import it.unipd.dei.eis.interfaces.IArticle;
 import it.unipd.dei.eis.repository.ArticleRepository;
 import it.unipd.dei.eis.utils.IO;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Ranker {
@@ -24,22 +29,38 @@ public class Ranker {
      * Ranks the articles by word frequency, in descending order.
      * The ranking is done in parallel, for each article.
      * Updates the wordFrequencyMap.
+     * @return the wordFrequencyMap, in the format 'word 'count'"
      */
     public Map<String, Integer> rank() {
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
         // For each article, tokenize it and update the wordFrequencyMap
-        for (IArticle article : repository.getAll()) { //TODO: parallelize
-            Set<String> tokenSet = ArticleTokenizer.tokenize(article);
+        for (IArticle article : repository.getAll()) {
 
-            for (String word : tokenSet) {
+            // Starts a thread for each article
+            executorService.execute(() -> {
+                Set<String> tokenSet = ArticleTokenizer.tokenize(article);
 
-                // Check if the word is already present in the wordFrequencyMap (previous articles)
-                Integer value = wordFrequencyMap.get(word);
+                for (String word : tokenSet) {
 
-                if (value == null) value = 0;
-                wordFrequencyMap.put(word, value + 1);
+                    // Update the wordFrequencyMap, in a concurrent-safe way
+                    synchronized (wordFrequencyMap) {
+                        // Check if the word is already present in the wordFrequencyMap (previous articles)
+                        Integer value = wordFrequencyMap.get(word);
 
-            }
+                        if (value == null) value = 0;
+                        wordFrequencyMap.put(word, value + 1);
+                    }
+                }
+            });
+
+        }
+        executorService.shutdown();
+        try {
+            // Wait until all threads are finish
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
         clearUsingStopList(); // TODO: check se si può fare in altro modo
@@ -47,7 +68,12 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
-    public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) { // TODO: metodo migliore?
+    /**
+     * Sorts the Map by value (descending) and then by key (ascending).
+     * @param wordFrequencyMap the map to be sorted
+     * @return the sorted map
+     */
+    public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) {
         // Create a compound comparator to sort by value (descending) and then by key (ascending)
         Comparator<Map.Entry<String, Integer>> valueComparator = Map.Entry.comparingByValue(Comparator.reverseOrder());
         Comparator<Map.Entry<String, Integer>> keyComparator = Map.Entry.comparingByKey();
@@ -62,8 +88,10 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
+    /**
+     * Removes the words in the stop list from the wordFrequencyMap.
+     */
     private void clearUsingStopList() {
-
         try {
             File file = new File(Ranker.STOP_LIST_PATH);
             Scanner scanner = new Scanner(file);
@@ -83,7 +111,19 @@ public class Ranker {
         return wordFrequencyMap;
     }
 
-    public String getWordFrequencyReport() { return getWordFrequencyReport(wordFrequencyMap.size()); }
+    /**
+     * Returns a string containing the word frequency report. The number of words shown is equal to wordFrequencyMap.size().
+     * @return the word frequency report, in the format 'word count'"
+     */
+    public String getWordFrequencyReport() {
+        return getWordFrequencyReport(wordFrequencyMap.size());
+    }
+
+    /**
+     * Returns a string containing the word frequency report.
+     * @param limit the number of words to be shown.
+     * @return the word frequency report, in the format 'word' 'count'"
+     */
     public String getWordFrequencyReport(int limit) {
         StringBuilder result = new StringBuilder();
 
@@ -96,9 +136,9 @@ public class Ranker {
     }
 
     /**
-     * Saves the wordFrequencyMap on a txt file.
-     * @param fileName      the name of the file, e.g. "wordFrequencyMap.txt"
-     * @throws IOException
+     * Saves the wordFrequencyMap in a txt file.
+     * @param fileName the name of the file, e.g. "wordFrequencyMap.txt"
+     * @throws IOException if an I/O error occurs
      */
     public void saveOnTxt(String fileName) throws IOException {
         IO.writeFile(BASE_PATH + fileName, getWordFrequencyReport());
