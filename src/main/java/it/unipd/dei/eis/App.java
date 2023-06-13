@@ -20,7 +20,6 @@ public class App {
         // Dotenv configuration
         Dotenv dotenv = Dotenv
                 .configure()
-                .directory("./src/main/resources")
                 .filename("env")
                 .load();
         dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));

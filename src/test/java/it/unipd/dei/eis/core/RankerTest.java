@@ -23,7 +23,7 @@ class RankerTest {
 
         private Ranker ranker;
         private final ArticleRepository repository = new ArticleRepository();
-        private final static String STORAGE_TEST_PATH_100_ARTICLES = "src/test/resources/100_articles.json";
+        private final static String STORAGE_TEST_PATH_100_ARTICLES = "./src/test/resources/100_articles.json";
 //        private static final String STORAGE_TEST_PATH_1000_ARTICLES = "src/test/resources/1000_articles.json";
 
         private ArrayList<Article> loadFromDiskTest(String fileName) {
@@ -33,9 +33,8 @@ class RankerTest {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ArrayList<Article> results = Marshalling.deserialize(FileFormat.JSON, serializedArticles, new Marshalling.TypeReference<ArrayList<Article>>() {
+            return Marshalling.deserialize(FileFormat.JSON, serializedArticles, new Marshalling.TypeReference<ArrayList<Article>>() {
             });
-            return results;
         }
 
         void setUp(String fileName) {
@@ -111,5 +110,4 @@ class RankerTest {
         }
     }
 
-//void printArticlesLength(ArticleRepository repository) { System.out.println("Number of articles: " + repository.size());}
 }

@@ -19,11 +19,10 @@ import java.util.stream.Collectors;
  */
 public class Ranker {
 
-    private static final String BASE_PATH = "src/main/resources/";
+    private static final String BASE_PATH = "./";
     private static final String STOP_LIST_PATH = BASE_PATH + "english_stoplist_v1.txt";
     private Map<String, Integer> wordFrequencyMap = new ConcurrentHashMap<>();
     private final Set<String> STOP_LIST = new HashSet<>(loadStopList());
-
     private final ArticleRepository repository;
 
     public Ranker(ArticleRepository repository) {
