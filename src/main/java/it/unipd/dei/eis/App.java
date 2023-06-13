@@ -90,7 +90,7 @@ public class App {
                 }
             }
             if (cmd.hasOption("r")) {
-                repository.loadFromDisk();
+                if (!(cmd.hasOption("d"))) repository.loadFromDisk();
 
                 Ranker ranker = new Ranker(repository);
                 ranker.rank();
