@@ -26,6 +26,9 @@ public class TGClient {
     private final static int MAX_ARTICLES_NUMBER = 2000;
     private String apiKey;
 
+    public TGClient() {
+        this(System.getProperty("THE_GUARDIAN_API_KEY"));
+    }
     public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
