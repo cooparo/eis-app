@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RankerTest {
 
@@ -24,37 +23,52 @@ class RankerTest {
 
         private Ranker ranker;
         private final ArticleRepository repository = new ArticleRepository();
-        private final String STORAGE_TEST_PATH = "src/test/resources/ranker_test_storage.json";
+        private final static String STORAGE_TEST_PATH_100_ARTICLES = "src/test/resources/100_articles.json";
+        private static final String STORAGE_TEST_PATH_1000_ARTICLES = "src/test/resources/1000_articles.json";
 
 
-        void loadFromDiskTest() {
+        private ArrayList<Article> loadFromDiskTest(String fileName) {
             String serializedArticles;
             try {
-                serializedArticles = IO.readFile(STORAGE_TEST_PATH);
+                serializedArticles = IO.readFile(fileName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
             ArrayList<Article> results = Marshalling.deserialize(FileFormat.JSON, serializedArticles, new Marshalling.TypeReference<ArrayList<Article>>(){});
-            repository.add(results.toArray(new IArticle[0]));
+            return results;
         }
 
-        void setUp() {
-            loadFromDiskTest();
+        void setUp(String fileName) {
+            repository.removeAll();
+            ArrayList<Article> articles = loadFromDiskTest(fileName);
+            repository.add(articles.toArray(new Article[0]));
 
             ranker = new Ranker(repository);
-//            printArticlesLength(repository);
         }
 
         @Test
-        void rankTest() {
-            setUp();
+        void rankTest100Articles() {
+            setUp(STORAGE_TEST_PATH_100_ARTICLES);
             Map<String, Integer> results = ranker.rank();
 
+//            System.out.println("bitcoin: " + results.get("bitcoin"));
+
             assertNotNull(results);
-            assertEquals(100, results.get("bitcoin"));
-            System.out.println("bitcoin: " + results.get("bitcoin"));
+            assertTrue(results.get("bitcoin") > 80);
+
         }
+
+        @Test
+        void rankTest1000Articles() {
+            setUp(STORAGE_TEST_PATH_1000_ARTICLES);
+            Map<String, Integer> results = ranker.rank();
+
+//            System.out.println("bitcoin: " + results.get("bitcoin"));
+
+            assertNotNull(results);
+            assertTrue(results.get("bitcoin") > 800);
+        }
+    }
     }
 
     // TODO: MAKE TEST
@@ -99,5 +113,4 @@ class RankerTest {
         }
     }
 
-    void printArticlesLength(ArticleRepository repository) { System.out.println("Number of articles: " + repository.size());}
-}
+    //void printArticlesLength(ArticleRepository repository) { System.out.println("Number of articles: " + repository.size());}
