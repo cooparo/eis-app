@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import it.unipd.dei.eis.interfaces.IArticle;
 
+/**
+ * Our implementation of Article.
+ */
 @JsonPropertyOrder({"id", "title", "body"})
 public class Article implements IArticle {
 

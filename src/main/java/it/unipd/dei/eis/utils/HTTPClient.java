@@ -14,6 +14,9 @@ public class HTTPClient {
 
     private static final int TIMEOUT_TIME = 5000;
 
+    /**
+     * A wrapper for the response of the server.
+     */
     public static class Response {
         private final int status;
         private final String data;
@@ -30,6 +33,11 @@ public class HTTPClient {
         }
     }
 
+    /**
+     * Sends an HTTP <b>GET</b> request to the specified URL.
+     * @param url the URL to send the request to
+     * @return the response from the server
+     */
     public static Response get(String url) {
         return request(HTTPMethod.GET, url);
     }

@@ -19,7 +19,7 @@ public class IO {
     }
 
     /**
-     * Writes the given data to the given file.
+     * Writes the given data to the given file, overwriting it if necessary.
      * @param path the path of the file
      * @param data the data to write
      * @throws IOException if an I/O error occurs

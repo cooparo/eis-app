@@ -10,7 +10,7 @@ import java.util.*;
 
 public class ArticleTokenizer {
 
-    // Part-of-Speech (POS) tag che rappresentano sostantivi (noun)
+    // Part-of-Speech (POS) tags which represent nouns (sostantivi)
     private final static Set<String> NOUN_POS_TAGS = new TreeSet<String>() {{
         // ENGLISH
         add("NN");  // noun, singular or mass
@@ -25,7 +25,7 @@ public class ArticleTokenizer {
 
     /**
      * Extract tokens from the input article (title and body)
-     * @param article   the article to tokenize
+     * @param article the article to tokenize
      * @return set of distinct tokens extracted from the article, in lowercase
      */
     public static Set<String> tokenize(IArticle article) {
@@ -41,7 +41,7 @@ public class ArticleTokenizer {
 
     /**
      * Create a StanfordCoreNLP pipeline with the specified annotators
-     * @param annotators   the annotators to use
+     * @param annotators the annotators to use
      * @return a StanfordCoreNLP pipeline
      */
     private static StanfordCoreNLP createPipeline(String annotators) {

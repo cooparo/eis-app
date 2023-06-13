@@ -14,8 +14,8 @@ public class NYTClient {
 
     /**
      * Imports an ArrayList of NYTArticle from a file.
-     * @param path the path of the file to import
-     * @return an ArrayList of NYTArticle
+     * @param path The path of the file to import.
+     * @return The imported articles.
      */
     public ArrayList<NYTArticle> importArticleArrayListFromFile(String path) {
         try {

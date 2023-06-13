@@ -4,6 +4,10 @@ import it.unipd.dei.eis.interfaces.IArticle;
 
 import java.util.ArrayList;
 
+/**
+ * A class for initializing once and only once the ArrayList of IArticle present in ArticleRepository.
+ * It uses the singleton design pattern.
+ */
 public class ArticleStorage {
     private final ArrayList<IArticle> articleArrayList;
     private static final ArticleStorage instance = new ArticleStorage();

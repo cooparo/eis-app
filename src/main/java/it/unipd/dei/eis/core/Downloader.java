@@ -15,21 +15,56 @@ import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
+/**
+ * One of the two core functionalities of this software.
+ */
 public class Downloader {
     private final ArticleRepository repository;
 
-//    private static final String BASE_PACKAGE = "it.unipd.dei.eis.newspapers.";
     public Downloader(ArticleRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * Downloads 100 articles of the specified newspaper with the specified query,
+     * adds them in the repository (whose object you passed when creating a Downloader object)
+     * and save them to disk.
+     * <p>
+     * The specified newspaper must have a <code>newspapers.[NewspaperName]</code> package containing
+     * a <code>[NN]Client</code> class and a <code>[NN]</code>ArticleAdapter.
+     * Please read the manual for further explanation.
+     *
+     * @param newspaper The newspaper you want to download the articles from
+     * @param query The query you want to send to the server
+     */
     public void download(String newspaper, String query) {
         download(newspaper, query, false);
     }
+
+    /**
+     * Reads the articles of the specified newspaper from the specified file,
+     * adds them in the repository (whose object you passed when creating a Downloader object)
+     * and save them to disk.
+     * <p>
+     * The specified newspaper must have a <code>newspapers.[NewspaperName]</code> package containing
+     * a <code>[NN]Client</code> class and a <code>[NN]</code>ArticleAdapter.
+     * Please read the manual for further explanation.
+     *
+     * @param newspaper The newspaper you previously downloaded the articles with
+     * @param path The path to the file you want to read
+     */
     public void simulateDownload(String newspaper, String path) {
         download(newspaper, path, true);
     }
 
+    /**
+     * Unique <i>private</i> method for downloading articles from a newspaper server or reading them from a file. <p>
+     * Downloaded articles will be added in the repository too (whose object you passed when creating a Downloader object)
+     * and they will be saved to disk.
+     * @param newspaper The newspaper you want the articles to be parsed with
+     * @param arg The <i>query</i> or the <i>path to the file</i>
+     * @param simulate Tf true, arg is considered a path to the file to be read. Otherwise, it is considered the query to be sent to the newspaper server.
+     */
     private void download(String newspaper, String arg, boolean simulate) {
 
         final String shortNewspaper = extractUpperCaseLetters(newspaper);
@@ -90,12 +125,27 @@ public class Downloader {
         }
 
     }
+
+    /**
+     * Returns the right method to call based on the argument isSimulation.
+     * @param newspaperClient The newspaper client, organised as specified in the manual
+     * @param isSimulation Must be equal to the argument <i>simulate</i> in the calling method (download(String,String,boolean))
+     * @return The right method
+     * @throws NoSuchMethodException If the class is not organised as specified in the manual
+     */
     private Method getMethod(Class<?> newspaperClient, boolean isSimulation) throws NoSuchMethodException {
         if (isSimulation)
             return newspaperClient.getMethod("importArticleArrayListFromFile", String.class);
         return newspaperClient.getMethod("getArticleArrayList", String.class, int.class);
     }
 
+    /**
+     * Returns the type parameter contained in the return type of the specified method.
+     * For example, given the following method: <code>ArrayList&lt;Person&gt; method(String arg)</code>,
+     * <code>Person</code> is returned.
+     * @param method the method you want to work with
+     * @return the type parameter contained in the return type of the specified method
+     */
     private Type getNewspaperArticleType(Method method) {
 
         // Checking if the return type of the method is valid (must be ArrayList<NewspaperArticle>)
@@ -109,6 +159,12 @@ public class Downloader {
         return ((ParameterizedType) returnType).getActualTypeArguments()[0];
     }
 
+    /**
+     * Extracts only uppercase letter.
+     * For example: <i>TheGuardian</i> would be turned into <i>TG</i>
+     * @param text The text you want to extract uppercase letters from
+     * @return the extracted uppercase letters
+     */
     private String extractUpperCaseLetters(String text) {
         StringBuilder uppercaseLetters = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
