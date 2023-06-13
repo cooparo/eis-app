@@ -6,7 +6,6 @@ import it.unipd.dei.eis.repository.ArticleRepository;
 import it.unipd.dei.eis.utils.FileFormat;
 import it.unipd.dei.eis.utils.IO;
 import it.unipd.dei.eis.utils.Marshalling;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RankerTest {
 
@@ -24,8 +24,7 @@ class RankerTest {
         private Ranker ranker;
         private final ArticleRepository repository = new ArticleRepository();
         private final static String STORAGE_TEST_PATH_100_ARTICLES = "src/test/resources/100_articles.json";
-        private static final String STORAGE_TEST_PATH_1000_ARTICLES = "src/test/resources/1000_articles.json";
-
+//        private static final String STORAGE_TEST_PATH_1000_ARTICLES = "src/test/resources/1000_articles.json";
 
         private ArrayList<Article> loadFromDiskTest(String fileName) {
             String serializedArticles;
@@ -34,7 +33,8 @@ class RankerTest {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ArrayList<Article> results = Marshalling.deserialize(FileFormat.JSON, serializedArticles, new Marshalling.TypeReference<ArrayList<Article>>(){});
+            ArrayList<Article> results = Marshalling.deserialize(FileFormat.JSON, serializedArticles, new Marshalling.TypeReference<ArrayList<Article>>() {
+            });
             return results;
         }
 
@@ -55,7 +55,6 @@ class RankerTest {
 
             assertNotNull(results);
             assertTrue(results.get("bitcoin") > 80);
-
         }
 
 //        @Test
@@ -69,9 +68,8 @@ class RankerTest {
 //            assertTrue(results.get("bitcoin") > 800);
 //        }
     }
-    }
 
-    // TODO: MAKE TEST
+
     @Nested
     class InlineLoading {
 
@@ -97,10 +95,10 @@ class RankerTest {
                     "The amount of electricity consumed by the largest cryptocurrency networks has decreased by up to 50% as the “crypto winter” continues to eat at the incomes of “miners” and financial contagion spreads further throughout the sector. The electricity consumption of the bitcoin network has fallen by a third from its high of 11 June, down to an annualised 131 terawatt-hours a year, according to estimates from the crypto analyst Digiconomist. That still equates to the annual consumption of Argentina, with a single conventional bitcoin transaction using the same amount of electricity that a typical US household would use over 50 days. The decrease in electricity used for Ethereum, the “programmable money” that underpins much of the recent explosion in crypto projects, has been sharper still, down from a peak of 94TWh a year to 46TWh a year – the annualised consumption of Qatar. The underlying reason for the fall is the same for both currencies, however. The electricity consumption of a cryptocurrency network comes from “mining”, which involves people using purpose-built computers to generate digital lottery tickets that can reward cryptocurrency payouts. The process underpins the security of the networks, but incentivises the network as a whole to waste extraordinary amounts of energy. As the price of cryptocurrencies has fallen – bitcoin peaked at $69,000 (£56,000) earlier this year, and is now hovering at about $20,000 – the value of the rewards to miners has dropped by the same proportion, leaving those in areas with expensive electricity or using older, inefficient mining “rigs” unable to turn a profit. “This is literally putting them out of business, starting with the ones that operate with suboptimal equipment or under suboptimal circumstances (eg inefficient cooling),” said Alex de Vries, the Dutch economist behind Digiconomist. “For bitcoin mining equipment that’s a big issue, because those machines cannot be repurposed to do something else. When they’re unprofitable they’re useless machines. You can keep them around hoping the price will recover or sell them for scrap.” Ethereum, by contrast, can be mined using a normal computer. But it is most profitable to do so using a very powerful graphics card, which has led to widespread supply shortages of the cards and turned many gamers against the industry. The collapse in mining revenue has led to a flood of graphics cards on the second-hand market, as insolvent miners try to recoup their investments, but De Vries warnsit is a lottery to buy one. “These machines are typically operating 24/7 and the components will get hot doing so. Heat [especially for prolonged periods of time] is known to wear out electronics, reducing longevity and reliability. “Right now it will mainly be older GPUs [graphics processing unit] becoming unprofitable, meaning that it’s not unlikely these devices have been used for mining for a long time.” Thankfully for gamers, the falling demand has also led to large price cuts for new components. Although the fall in bitcoin’s price has stabilised over the past week, the wider cryptocurrency sector continues to stumble as a result of the huge price collapse. The latest jolt was caused by the failure of the ersatz cryptobank Celsius, which announced on 12 June that it was halting withdrawals as it faced a liquidity crisis. The failure of Celsius triggered a domino effect across the wider sector: Three Arrows Capital (3AC), a multibillion-dollar hedge fund, experienced its own liquidity crunch as a result, and multiple companies with substantial outstanding loans to 3AC have now had to take emergency measures in turn. Two other companies that offered bank-like services announced large exposures to 3AC. Last week Finblox said the hedge fund’s actions had an “effect on liquidity”, and heavily restricted user withdrawals, dropping the daily limit from $50,000 to $500 while stopping interest payments on deposits. On Wednesday Voyager, which offers 12% on crypto deposits, revealed it had an outstanding loan of $650m to 3AC, more than four times its available cash. Voyager added that it would consider 3AC in default if the hedge fund did not repay the loan in full by Monday morning. The company has also reportedly frozen user withdrawals. Bancor, a decentralised finance protocol that acts as an exchange, lost out to “the recent insolvency of two large centralised entities”, believed to be Celsius and 3AC, and had to impose withdrawal limits. On Thursday another crypto exchange, CoinFLEX, announced that it was pausing withdrawals because of “extreme market conditions”. Amid the collapses, one large cryptocurrency company has emerged as a would-be saviour of the sector. Alameda Ventures, the investment arm of the crypto entrepreneur Sam Bankman-Fried’s empire, centred on his exchange FTX, has bailed out Voyager and the embattled exchange BlockFi, offering multimillion-dollar loans to both companies. The loans have earned him comparisons to JP Morgan, the US banker who stepped in during a 1907 financial crisis and bought up the stock of troubled companies in an effort to halt the collapse.",
                     null
             );
-//            repository.add(article1, article2, article3); //FIXME: aggiungendo gli articoli qua, mi sputtana l'assertEquals riga 55 (questo file)
+            repository.removeAll();
+            repository.add(article1, article2, article3);
             ranker = new Ranker(repository);
 
-//            printArticlesLength(repository);
         }
 
         @Test
@@ -113,4 +111,5 @@ class RankerTest {
         }
     }
 
-    //void printArticlesLength(ArticleRepository repository) { System.out.println("Number of articles: " + repository.size());}
+//void printArticlesLength(ArticleRepository repository) { System.out.println("Number of articles: " + repository.size());}
+}

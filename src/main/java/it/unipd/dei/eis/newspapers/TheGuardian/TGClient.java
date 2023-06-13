@@ -25,7 +25,10 @@ public class TGClient {
     private final static int MAX_ARTICLES_NUMBER = 2000;
     private String apiKey;
 
-    public TGClient() { this(System.getProperty("THE_GUARDIAN_API_KEY")); }
+    public TGClient() {
+        this(System.getProperty("THE_GUARDIAN_API_KEY"));
+    }
+
     public TGClient(String apiKey) {
         this.apiKey = apiKey;
     }
@@ -38,7 +41,8 @@ public class TGClient {
      */
     public ArrayList<TGArticle> getArticleArrayList(String query, int articlesNumber) {
         if (articlesNumber < 0) throw new IllegalArgumentException("The number of articles must be a positive integer");
-        if (articlesNumber > MAX_ARTICLES_NUMBER) throw new IllegalArgumentException("Too many articles requested, max " + MAX_ARTICLES_NUMBER + " articles allowed");
+        if (articlesNumber > MAX_ARTICLES_NUMBER)
+            throw new IllegalArgumentException("Too many articles requested, max " + MAX_ARTICLES_NUMBER + " articles allowed");
 
         // Encode the query, e.g. "nuclear power" -> "nuclear%20power"
         final String formattedQuery;
@@ -52,7 +56,7 @@ public class TGClient {
         int pagesNumber = articlesNumber > 200 ? (int) Math.ceil(articlesNumber / 200.0) : 1;
 
         ArrayList<TGArticle> results = new ArrayList<>();
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
         for (int i = 1; i <= pagesNumber; i++) {
             int currentPageSize = Math.min(articlesNumber - (i - 1) * MAX_PAGE_SIZE, MAX_PAGE_SIZE);

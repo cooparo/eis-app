@@ -10,18 +10,7 @@ import java.util.*;
 
 public class ArticleTokenizer {
 
-    // Part-of-Speech (POS) tag che rappresentano sostantivi (noun)
-    private final static Set<String> NOUN_POS_TAGS = new TreeSet<String>() {{
-        // ENGLISH
-        add("NN");  // noun, singular or mass
-        add("NNS"); // noun, plural
-        add("NNP"); // proper noun, singular
-        add("NNPS"); // proper noun, plural
-    }};
-
-    private final static String TOKENS_ANNOTATORS = "tokenize,ssplit,pos";
     private final static String LEMMAS_ANNOTATORS = "tokenize,ssplit,pos,lemma";
-    private final static String NOUNS_ANNOTATORS = "tokenize,ssplit,pos";
 
     /**
      * Extract tokens from the input article (title and body)
@@ -54,40 +43,9 @@ public class ArticleTokenizer {
     }
 
     /**
-     * Estrae i token dal testo in input, utilizzando la sequenza di annotatori specificata.
-     *
-     * @param text il testo da annotare
-     * @return insieme dei token distinti estratti dal testo, in minuscolo
-     * @since 0.1
-     */
-    private static Set<String> extractTokens(String text) {
-
-        StanfordCoreNLP nlpPipeline = createPipeline(ArticleTokenizer.TOKENS_ANNOTATORS);
-
-        // create a document object
-        CoreDocument document = new CoreDocument(text);
-
-        // annotate the document
-        nlpPipeline.annotate(document);
-
-        Set<String> distinctTokens = new TreeSet<>();
-        // tokens
-        for (CoreLabel token : document.tokens()) {
-
-            String tkn = token.originalText().toLowerCase();
-
-            distinctTokens.add(tkn);
-        }
-
-        return distinctTokens;
-    }
-
-    /**
-     * Estrae i lemma dal testo in input, utilizzando la sequenza di annotatori specificata.
-     *
-     * @param text il testo da annotare
-     * @return insieme dei lemma distinti estratti dal testo, in minuscolo
-     * @since 0.1
+     * Extract lemmas from the input text
+     * @param text  the text to analyze
+     * @return set of distinct lemmas extracted from the text, in lowercase
      */
     private static Set<String> extractLemmas(String text) {
 
@@ -108,40 +66,4 @@ public class ArticleTokenizer {
 
         return distinctLemmas;
     }
-
-    /**
-     * Estrae i sostantivi dal testo in input, utilizzando la sequenza di annotatori specificata.
-     *
-     * @param text il testo da annotare
-     * @return insieme dei sostantivi distinti estratti dal testo, in minuscolo
-     * @since 0.1
-     */
-    private static Set<String> extractNouns(String text) {
-
-        StanfordCoreNLP nlpPipeline = createPipeline(ArticleTokenizer.NOUNS_ANNOTATORS);
-
-        // create a document object
-        CoreDocument document = new CoreDocument(text);
-        // annotate the document
-        nlpPipeline.annotate(document);
-
-        Set<String> distinctNouns = new TreeSet<>();
-
-        // tokens
-        for (CoreLabel token : document.tokens()) {
-
-            // this is the text of the token
-            String word = token.get(CoreAnnotations.TextAnnotation.class);
-            // this is the POS tag of the token
-            String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-
-            if (NOUN_POS_TAGS.contains(pos.toUpperCase())) {
-                distinctNouns.add(word.toLowerCase());
-            }
-        }
-
-        return distinctNouns;
-    }
-
-
 }

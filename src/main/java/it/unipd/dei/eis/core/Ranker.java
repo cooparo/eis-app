@@ -94,7 +94,7 @@ public class Ranker {
     /**
      * Removes the words in the stop list from the wordFrequencyMap.
      */
-    private boolean isStopList(String word) {
+    public boolean isStopList(String word) {
         return STOP_LIST.contains(word);
     }
 
