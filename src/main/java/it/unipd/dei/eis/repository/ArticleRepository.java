@@ -21,7 +21,7 @@ public class ArticleRepository implements IRepository<IArticle> {
 
     private final ArrayList<IArticle> storage;
     private FileFormat fileFormat;
-    private final static String BASE_PATH = "./src/test/resources/";
+    private final static String BASE_PATH = "./";
 
     public ArticleRepository() {
         this(FileFormat.JSON);

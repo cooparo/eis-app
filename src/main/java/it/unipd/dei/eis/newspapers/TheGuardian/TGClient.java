@@ -1,5 +1,6 @@
 package it.unipd.dei.eis.newspapers.TheGuardian;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import it.unipd.dei.eis.exceptions.InvalidFileFormatException;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGArticle;
 import it.unipd.dei.eis.newspapers.TheGuardian.models.TGResponse;

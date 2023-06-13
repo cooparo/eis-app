@@ -103,17 +103,15 @@ public class Ranker {
     private Set<String> loadStopList() {
         Set<String> stopList = new HashSet<>();
         try {
-            File file = new File(Ranker.STOP_LIST_PATH);
-            Scanner scanner = new Scanner(file);
+            String content = IO.readResourceFile(STOP_LIST_PATH);
+            Scanner scanner = new Scanner(content);
 
             while (scanner.hasNextLine()) {
                 String word = scanner.nextLine().trim();
                 stopList.add(word);
             }
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not find the stoplist file in " + STOP_LIST_PATH);
         }
         return stopList;
     }

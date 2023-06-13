@@ -1,10 +1,11 @@
 package it.unipd.dei.eis.utils;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Objects;
 
 public class IO {
 
@@ -16,6 +17,22 @@ public class IO {
      */
     public static String readFile(String path) throws IOException {
         return new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+    }
+
+    public static String readResourceFile(String path) throws IOException {
+        StringBuilder contentBuilder = new StringBuilder();
+
+        try (InputStream inputStream = FileReader.class.getResourceAsStream(path);
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    contentBuilder.append(line);
+                    contentBuilder.append(System.lineSeparator());
+                }
+             }
+        return contentBuilder.toString();
     }
 
     /**
