@@ -36,8 +36,6 @@ public class Ranker {
      */
     public Map<String, Integer> rank() {
 
-        long startTime = System.currentTimeMillis();
-
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         // For each article, tokenize it and update the wordFrequencyMap
         for (IArticle article : repository.getAll()) {
@@ -67,10 +65,6 @@ public class Ranker {
         }
 
         wordFrequencyMap = sortMapByValueThenByKey(wordFrequencyMap);
-
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("rank: " + duration + " milliseconds");
 
         return wordFrequencyMap;
     }
