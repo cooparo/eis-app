@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +18,8 @@ public class Ranker {
 
     private static final String BASE_PATH = "src/main/resources/";
     private static final String STOP_LIST_PATH = BASE_PATH + "english_stoplist_v1.txt";
-    private Map<String, Integer> wordFrequencyMap = new HashMap<>();
+    private Map<String, Integer> wordFrequencyMap = new ConcurrentHashMap<>();
+    private final Set<String> STOP_LIST = new HashSet<>(loadStopList());
 
     private final ArticleRepository repository;
 
@@ -29,11 +31,14 @@ public class Ranker {
      * Ranks the articles by word frequency, in descending order.
      * The ranking is done in parallel, for each article.
      * Updates the wordFrequencyMap.
+     *
      * @return the wordFrequencyMap, in the format 'word 'count'"
      */
     public Map<String, Integer> rank() {
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        long startTime = System.currentTimeMillis();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         // For each article, tokenize it and update the wordFrequencyMap
         for (IArticle article : repository.getAll()) {
 
@@ -42,15 +47,13 @@ public class Ranker {
                 Set<String> tokenSet = ArticleTokenizer.tokenize(article);
 
                 for (String word : tokenSet) {
+                    // Check if the word is in the stop list
+                    if (isStopList(word)) continue;
+                    // Check if the word is already present in the wordFrequencyMap (previous articles)
+                    Integer value = wordFrequencyMap.get(word);
 
-                    // Update the wordFrequencyMap, in a concurrent-safe way
-                    synchronized (wordFrequencyMap) {
-                        // Check if the word is already present in the wordFrequencyMap (previous articles)
-                        Integer value = wordFrequencyMap.get(word);
-
-                        if (value == null) value = 0;
-                        wordFrequencyMap.put(word, value + 1);
-                    }
+                    if (value == null) value = 0;
+                    wordFrequencyMap.put(word, value + 1);
                 }
             });
 
@@ -63,17 +66,23 @@ public class Ranker {
             throw new RuntimeException(e);
         }
 
-        clearUsingStopList(); // TODO: check se si può fare in altro modo
         wordFrequencyMap = sortMapByValueThenByKey(wordFrequencyMap);
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("rank: " + duration + " milliseconds");
+
         return wordFrequencyMap;
     }
 
     /**
      * Sorts the Map by value (descending) and then by key (ascending).
+     *
      * @param wordFrequencyMap the map to be sorted
      * @return the sorted map
      */
     public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) {
+
         // Create a compound comparator to sort by value (descending) and then by key (ascending)
         Comparator<Map.Entry<String, Integer>> valueComparator = Map.Entry.comparingByValue(Comparator.reverseOrder());
         Comparator<Map.Entry<String, Integer>> keyComparator = Map.Entry.comparingByKey();
@@ -91,20 +100,26 @@ public class Ranker {
     /**
      * Removes the words in the stop list from the wordFrequencyMap.
      */
-    private void clearUsingStopList() {
+    private boolean isStopList(String word) {
+        return STOP_LIST.contains(word);
+    }
+
+    private Set<String> loadStopList() {
+        Set<String> stopList = new HashSet<>();
         try {
             File file = new File(Ranker.STOP_LIST_PATH);
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
                 String word = scanner.nextLine().trim();
-                wordFrequencyMap.remove(word);
+                stopList.add(word);
             }
 
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return stopList;
     }
 
     public Map<String, Integer> getWordFrequencyMap() {
@@ -113,6 +128,7 @@ public class Ranker {
 
     /**
      * Returns a string containing the word frequency report. The number of words shown is equal to wordFrequencyMap.size().
+     *
      * @return the word frequency report, in the format 'word count'"
      */
     public String getWordFrequencyReport() {
@@ -121,6 +137,7 @@ public class Ranker {
 
     /**
      * Returns a string containing the word frequency report.
+     *
      * @param limit the number of words to be shown.
      * @return the word frequency report, in the format 'word' 'count'"
      */
@@ -137,6 +154,7 @@ public class Ranker {
 
     /**
      * Saves the wordFrequencyMap in a txt file.
+     *
      * @param fileName the name of the file, e.g. "wordFrequencyMap.txt"
      * @throws IOException if an I/O error occurs
      */
