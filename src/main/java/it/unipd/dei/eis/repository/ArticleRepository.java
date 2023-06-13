@@ -62,6 +62,11 @@ public class ArticleRepository implements IRepository<IArticle> {
     }
 
     @Override
+    public void removeAll() {
+        storage.clear();
+    }
+
+    @Override
     public int size() { return storage.size(); }
 
     @Override
