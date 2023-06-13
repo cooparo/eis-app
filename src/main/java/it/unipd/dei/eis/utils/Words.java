@@ -4,8 +4,8 @@ public class Words {
 
     /**
      * Convert a string to camel case.
-     * @param input the string to be converted
-     * @return the converted string
+     * @param input The string to be converted.
+     * @return The converted string.
      */
     public static String toCamelCase(String input) {
         String[] words = input.split(" ");

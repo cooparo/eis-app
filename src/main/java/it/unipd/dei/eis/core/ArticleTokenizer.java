@@ -14,7 +14,7 @@ public class ArticleTokenizer {
 
     /**
      * Extract tokens from the input article (title and body)
-     * @param article   the article to tokenize
+     * @param article the article to tokenize
      * @return set of distinct tokens extracted from the article, in lowercase
      */
     public static Set<String> tokenize(IArticle article) {
@@ -30,7 +30,7 @@ public class ArticleTokenizer {
 
     /**
      * Create a StanfordCoreNLP pipeline with the specified annotators
-     * @param annotators   the annotators to use
+     * @param annotators the annotators to use
      * @return a StanfordCoreNLP pipeline
      */
     private static StanfordCoreNLP createPipeline(String annotators) {
@@ -44,7 +44,7 @@ public class ArticleTokenizer {
 
     /**
      * Extract lemmas from the input text
-     * @param text  the text to analyze
+     * @param text the text to analyze
      * @return set of distinct lemmas extracted from the text, in lowercase
      */
     private static Set<String> extractLemmas(String text) {

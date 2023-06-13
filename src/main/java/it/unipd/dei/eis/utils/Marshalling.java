@@ -32,12 +32,12 @@ public class Marshalling {
     }
 
     /**
-     * Deserialize a file to an object of type R.
-     * @param fileFormat the file format
-     * @param content the file content to be deserialized
-     * @param type the object type
-     * @param <R> the object type
-     * @return the deserialized object
+     * Deserialize a string in the specified format into an object of the given class type.
+     * @param fileFormat the format of the content to be deserialized
+     * @param content    a String containing serialized content in the specified format
+     * @param type       a Class object representing the type of the object to be created
+     * @param <R>        the generic type representing the object to be created
+     * @return an object of the given class type deserialized from the provided content
      */
     public static <R> R deserialize(FileFormat fileFormat, String content, Class<R> type) {
         ObjectMapper mapper = getMapper(fileFormat);
@@ -50,18 +50,17 @@ public class Marshalling {
     }
 
     /**
-     * Deserialize a file to an object of type R.
-     * @param fileFormat the file format
-     * @param content the file content to be deserialized
-     * @param type the reference to the object type
-     * @param <R> the object type
-     * @return the deserialized object
+     * Deserialize a string in the specified format into an object of type R, specified by the provided TypeReference.
+     * @param fileFormat the format of the content to be deserialized
+     * @param content a String containing serialized content in the specified format
+     * @param type a TypeReference object representing the generic type of the object to be deserialized
+     * @return an object of type R, as specified by the TypeReference object, deserialized from the provided content string
      */
     public static <R> R deserialize(FileFormat fileFormat, String content, TypeReference<R> type) {
         ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
         try {
-            if (fileFormat == FileFormat.CSV) return deserializeCsv(mapper, content, type);
+            if (fileFormat == FileFormat.CSV) return deserializeCsv((CsvMapper) mapper, content, type);
             return mapper.readValue(content, type);
         } catch (IOException e) {
             throw new MarshallingException(e.getMessage());
@@ -69,8 +68,8 @@ public class Marshalling {
     }
 
     /**
-     * Serialize an object to a string.
-     * @param fileFormat the file format
+     * Serialize an object to a string in the specified format.
+     * @param fileFormat the format you want the object to be serialized
      * @param object the object to be serialized
      * @return the serialized string
      */
@@ -78,7 +77,7 @@ public class Marshalling {
         ObjectMapper mapper = getMapper(fileFormat);
         mapper.registerModule(new JavaTimeModule());
         try {
-            if (fileFormat == FileFormat.CSV) return serializeCsv(mapper, object);
+            if (fileFormat == FileFormat.CSV) return serializeCsv((CsvMapper) mapper, object);
             return mapper.writeValueAsString(object);
         } catch (IOException e) {
             throw new MarshallingException(e.getMessage());
@@ -87,13 +86,12 @@ public class Marshalling {
 
     /**
      * Deserialize a CSV file to an object of type R.
-     * @param mapper the mapper
+     * @param csvMapper the csv mapper
      * @param content the file content to be deserialized
      * @param type the reference to the object type
      * return the deserialized object
      */
-    private static <R> R deserializeCsv(ObjectMapper mapper, String content, TypeReference<R> type) throws IOException {
-        if (!(mapper instanceof CsvMapper)) throw new IllegalArgumentException("mapper must be of type CsvMapper.");
+    private static <R> R deserializeCsv(CsvMapper csvMapper, String content, TypeReference<R> type) throws IOException {
 
         Type parentType = type.getType();
         if (!(parentType instanceof ParameterizedType) || !(ArrayList.class.equals(((ParameterizedType) parentType).getRawType()))) {
@@ -107,20 +105,18 @@ public class Marshalling {
         content = csvHeaderToCamelCase(csvHeader) + headerlessCsv;
 
         CsvSchema headerSchema = CsvSchema.emptySchema().withHeader();
-        return (R) mapper.readerFor(((Class<?>) baseType))
+        return (R) csvMapper.readerFor(((Class<?>) baseType))
                 .with(headerSchema)
                 .readValues(content).readAll();
     }
 
     /**
      * Serialize an object to a CSV string.
-     * @param mapper the mapper
+     * @param csvMapper the csv mapper
      * @param object the object to be serialized
      * return the serialized string
      */
-    private static String serializeCsv(ObjectMapper mapper, Object object) throws IOException {
-        if (!(mapper instanceof CsvMapper)) throw new IllegalArgumentException("mapper must be of type CsvMapper.");
-        CsvMapper csvMapper = (CsvMapper) mapper;
+    private static String serializeCsv(CsvMapper csvMapper, Object object) throws IOException {
 
         if (!(object instanceof ArrayList))
             throw new IllegalArgumentException("R raw type must be java.util.ArrayList");
@@ -139,7 +135,11 @@ public class Marshalling {
     }
 
     /**
-     * Convert a CSV header to camel case.
+     * Convert a CSV header to camel case. <p>
+     * For example: <p>
+     * <code>Identifier,URL,Title,Source Set,Source</code><p>
+     * would be transformed into <p>
+     * <code>identifier,url,title,sourceSet,source</code><p>
      * @param csvHeader the CSV header
      * return the camel case header
      */

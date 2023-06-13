@@ -82,9 +82,9 @@ public class TGClient {
     }
 
     /***
-     * Imports articles from a file.
-     * @param path The path of the file.
-     * @return An ArrayList of TGArticle objects.
+     * Imports an ArrayList of TGArticle from a file.
+     * @param path The path of the file to import.
+     * @return The imported articles.
      */
     public ArrayList<TGArticle> importArticleArrayListFromFile(String path) {
         try {

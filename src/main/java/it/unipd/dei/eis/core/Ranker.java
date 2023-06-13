@@ -14,6 +14,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * One of the two core functionalities of this software.
+ */
 public class Ranker {
 
     private static final String BASE_PATH = "src/main/resources/";
