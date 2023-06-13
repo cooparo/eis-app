@@ -77,12 +77,12 @@ public class ArticleRepository implements IRepository<IArticle> {
     }
 
     /**
-     * Removes from the repository the article with the specified id.
-     * @param id The id of the article to be removed.
+     * Removes from the repository the specified article.
+     * @param article The article to be removed.
      */
     @Override
-    public void remove(String id) {
-        storage.removeIf(article -> article.getId().equals(id));
+    public void remove(IArticle article) {
+        storage.remove(article);
     }
 
     /**
@@ -92,7 +92,7 @@ public class ArticleRepository implements IRepository<IArticle> {
     public int size() { return storage.size(); }
 
     @Override
-    public ArrayList<IArticle> FindBySpecification(ISpecification spec) {
+    public ArrayList<IArticle> FindBySpecification(ISpecification<IArticle> spec) {
         ArrayList<IArticle> articleArrayList = new ArrayList<>();
 
         for(IArticle article : storage) {

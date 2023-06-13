@@ -9,7 +9,7 @@ public interface IRepository<T> {
     void add(T... t);
     ArrayList<T> getAll();
     void update(T oldT, T newT);
-    void remove(String id);
+    void remove(T t);
     int size();
-    ArrayList<T> FindBySpecification(ISpecification spec);
+    ArrayList<T> FindBySpecification(ISpecification<T> spec);
 }
