@@ -35,7 +35,7 @@ public class Ranker {
      * The ranking is done in parallel, for each article.
      * Updates the wordFrequencyMap.
      *
-     * @return the wordFrequencyMap, in the format 'word 'count'"
+     * @return The wordFrequencyMap, in the format 'word 'count'".
      */
     public Map<String, Integer> rank() {
 
@@ -75,8 +75,8 @@ public class Ranker {
     /**
      * Sorts the Map by value (descending) and then by key (ascending).
      *
-     * @param wordFrequencyMap the map to be sorted
-     * @return the sorted map
+     * @param wordFrequencyMap the map to be sorted.
+     * @return The sorted map.
      */
     public static Map<String, Integer> sortMapByValueThenByKey(Map<String, Integer> wordFrequencyMap) {
 
@@ -126,7 +126,7 @@ public class Ranker {
     /**
      * Returns a string containing the word frequency report. The number of words shown is equal to wordFrequencyMap.size().
      *
-     * @return the word frequency report, in the format 'word count'"
+     * @return the word frequency report, in the format 'word count'".
      */
     public String getWordFrequencyReport() {
         return getWordFrequencyReport(wordFrequencyMap.size());
@@ -153,7 +153,7 @@ public class Ranker {
      * Saves the wordFrequencyMap in a txt file.
      *
      * @param fileName the name of the file, e.g. "wordFrequencyMap.txt"
-     * @throws IOException if an I/O error occurs
+     * @throws IOException If an I/O error occurs.
      */
     public void saveOnTxt(String fileName) throws IOException {
         IO.writeFile(BASE_PATH + fileName, getWordFrequencyReport());
