@@ -22,7 +22,7 @@ public class IO {
     public static String readResourceFile(String path) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (InputStream inputStream = FileReader.class.getResourceAsStream(path);
+        try (InputStream inputStream = IO.class.getResourceAsStream(path);
              InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
 
