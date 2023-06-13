@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 public class Downloader {
     private final ArticleRepository repository;
+    private static final int NUMBER_ARTICLES_DOWNLOADED = 100;
 
-//    private static final String BASE_PACKAGE = "it.unipd.dei.eis.newspapers.";
+    //    private static final String BASE_PACKAGE = "it.unipd.dei.eis.newspapers.";
     public Downloader(ArticleRepository repository) {
         this.repository = repository;
     }
@@ -48,7 +49,7 @@ public class Downloader {
             // Preparing arguments for the invocation of the method
             Object[] arguments;
             if (simulate) arguments = new Object[] {arg};
-            else arguments = new Object[] {arg, 100};
+            else arguments = new Object[] {arg, NUMBER_ARTICLES_DOWNLOADED};
 
             // Creating an instance of the Newspaper Client
             Object clientInstance = newspaperClient.getDeclaredConstructor().newInstance();
