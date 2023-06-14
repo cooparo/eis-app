@@ -17,6 +17,8 @@ public class App {
 
     public static void main(String[] args) {
 
+        System.out.println();
+
         // Dotenv configuration
         Dotenv dotenv = Dotenv
                 .configure()
@@ -113,6 +115,8 @@ public class App {
         } catch (IOException e) {
             System.err.println("ERROR - " + e.getMessage());
         }
+
+        System.out.println();
     }
 
     private static void printHelp(Options options) {
