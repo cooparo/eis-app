@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArticleTokenizerTest {
+public class ArticleTokenizerTest {
 
     IArticle article;
     IArticle punctuationArticle;

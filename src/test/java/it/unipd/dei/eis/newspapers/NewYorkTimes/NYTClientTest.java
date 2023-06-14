@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class NYTClientTest {
+public class NYTClientTest {
 
 
     private static final String PATH_FILE = "./nytimes_articles_v2.csv";

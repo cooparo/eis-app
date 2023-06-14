@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 
-class NYTArticleAdapterTest {
+public class NYTArticleAdapterTest {
 
     @Test
     public void testGetId() {
