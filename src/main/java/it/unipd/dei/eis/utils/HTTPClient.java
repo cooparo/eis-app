@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 public class HTTPClient {
 
@@ -75,7 +76,9 @@ public class HTTPClient {
             throw new RuntimeException("Implementation error, the HTTP method " + method.toString() + " is not correct.");
         } catch (MalformedURLException e) {
             throw new HTTPClientException("The URL you've passed is malformed. Try to read the documentation.");
-        } catch (IOException e) { // FIXME: Handle NO INTERNET
+        } catch (UnknownHostException e) {
+            throw new HTTPClientException("Probably you're not connected to the Internet. Can't connect to " + e.getMessage());
+        } catch (IOException e) {
             throw new HTTPClientException(e.getMessage());
         }
 
