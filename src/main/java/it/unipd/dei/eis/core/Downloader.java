@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Downloader {
     private final ArticleRepository repository;
-    private static final int NUMBER_ARTICLES_DOWNLOADED = 100;
+    private static final int NUMBER_ARTICLES_DOWNLOADED = 1000;
 
     public Downloader(ArticleRepository repository) {
         this.repository = repository;
