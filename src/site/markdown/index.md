@@ -1,23 +1,12 @@
 # eis-app
 
-## Pre-requisites
-You have to install:
-- [Maven](https://maven.apache.org/) 
-- [JDK 8](https://www.oracle.com/java/technologies/downloads/)
+Questo software è stato creato con l’obiettivo di analizzare articoli di diverse testate giornalistiche disponibili online, tra cui The Guardian e New York Times, e classificare i termini più ricorrenti.
 
-## Usage
-1. Download and extract the .zip
-2. Enter the project folder ``/eis-app``
-3. Build the project with
-```bash
-mvn package 
-```
-4. Run the app with
-```bash 
-java -jar target/eis-app-*-jar-with-dependencies.jar [options]
-```
+Il software è dotato di due funzionalità che possono essere eseguite singolarmente o in cascata: permette all’utente di scaricare degli articoli in base ad un termine di ricerca e di stabilire le parole e quindi i temi citati più spesso.
 
-For the Javadoc, run the maven site plugin with
-```bash
-mvn site:run
-```
+Affinché il download sia possibile, il software si interfaccia con le Application Program Interfaces (API) rese disponibili dalle testate giornalistiche.
+
+
+## Manuale
+
+Si può leggere il manuale in versione HTML [qui](manuale.html).

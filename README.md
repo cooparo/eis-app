@@ -16,8 +16,3 @@ mvn package
 ```bash 
 java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 ```
-
-For the Javadoc, run the maven site plugin with
-```bash
-mvn site:run
-```

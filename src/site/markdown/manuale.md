@@ -1,6 +1,9 @@
 # Manuale
 
-# Panoramica del Software
+Per la consultazione del manuale è possibile fruire del PDF con una grafica leggermente diversa.
+
+## Panoramica del Software
+
 
 Il nostro software è stato progettato per analizzare articoli giornalistici provenienti da diverse testate online, inclusi The Guardian e The New York Times, al fine di classificare i termini più ricorrenti. Offriamo due funzionalità principali che possono essere eseguite in modo indipendente o in sequenza.
 
@@ -10,8 +13,13 @@ La seconda funzionalità esegue il ranking dei 50 termini più utilizzati negli 
 
 Il software è dotato di un'interfaccia utente semplice implementata tramite una Command Line Interface (CLI). Un manuale è disponibile per fornire istruzioni dettagliate sull'utilizzo del software.
 
-# Installazione e esecuzione del Software
+## Installazione e esecuzione del Software
+### Prerequisiti
+Assicurati di avere installato:
+- [Maven](https://maven.apache.org/)
+- [JDK 8](https://www.oracle.com/java/technologies/downloads/)
 
+### Installazione
 1. Download and extract the .zip
 2. Enter the project folder `/eis-app`
 3. Build the project with
@@ -26,9 +34,9 @@ mvn package
 java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 ```
 
-# Utilizzo di funzioni di librerie esistenti
+## Utilizzo di funzioni di librerie esistenti
 
-## Libreria Jackson v. 2.14.0
+### Libreria Jackson v. 2.14.0
 
 1. classe **ObjectMapper**:
     - **readValue(content, type)**: Questa funzione viene utilizzata per deserializzare un oggetto da una stringa nel formato specificato. La stringa content viene convertita nell'oggetto del tipo specificato (type).
@@ -125,7 +133,7 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
     ```
     
 
-## CoreNPL (Standford) v. 4.4.0
+### CoreNPL (Standford) v. 4.4.0
 
 1. classe StanfordCoreNPL:
     - Annotate(): Questa funzione viene utilizzata per eseguire l’annotazione del documento fornito in input utilizzando le pipiline fornite di annotazione Staford CoreNPL. Nel nostro programma viene utilizzata da:
@@ -133,7 +141,7 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
         - Nel metodo extractLemmas() viene utilizzata per estrarre i lemma (il lemma di una parola rappresenta la sua forma base o radice) presenti nel testo
         - Nel metodo extractNouns() viene utilizzata per estrarre i sostantivi (nomi) presenti nel testo
 
-## Aggiungere un nuovo giornale
+### Aggiungere un nuovo giornale
 
 Qui trovi la guida su come aggiungere ulteriori testate giornalistiche al software.
 
@@ -194,7 +202,7 @@ Qui trovi la guida su come aggiungere ulteriori testate giornalistiche al softwa
     </aside>
     
 
-## Come aggiungere nuove fonti
+### Come aggiungere nuove fonti
 
 Qui trovi la guida su come aggiungere ulteriori fonti al software.
 
