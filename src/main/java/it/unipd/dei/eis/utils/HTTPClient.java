@@ -74,8 +74,8 @@ public class HTTPClient {
         } catch (ProtocolException e) {
             throw new RuntimeException("Implementation error, the HTTP method " + method.toString() + " is not correct.");
         } catch (MalformedURLException e) {
-            throw new HTTPClientException("The URL you've passed is malformed. Try to read the documentation dumbass.");
-        } catch (IOException e) {
+            throw new HTTPClientException("The URL you've passed is malformed. Try to read the documentation.");
+        } catch (IOException e) { // FIXME: Handle NO INTERNET
             throw new HTTPClientException(e.getMessage());
         }
 
