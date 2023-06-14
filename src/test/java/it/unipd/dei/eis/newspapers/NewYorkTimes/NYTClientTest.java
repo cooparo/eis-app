@@ -8,11 +8,12 @@ import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class NYTClientTest {
 
 
-    private static final String PATH_FILE = "./nytimes_articles_v2.csv";
+    private static final String PATH_FILE = "./src/test/resources/nytimes_articles_v2.csv";
     private static final String EMPTY_PATH_FILE = "";
 
     NYTClient client;
@@ -25,9 +26,9 @@ public class NYTClientTest {
     @Test
     void importArticleArrayListFromFile() {
 
-//        ArrayList<NYTArticle> results = client.importArticleArrayListFromFile(PATH_FILE);
+        ArrayList<NYTArticle> results = client.importArticleArrayListFromFile(PATH_FILE);
 
-//        assertNotNull(results);
+        assertNotNull(results);
     }
 
     @Test
