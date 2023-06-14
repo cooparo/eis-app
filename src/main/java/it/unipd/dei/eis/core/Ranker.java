@@ -145,12 +145,12 @@ public class Ranker {
     }
 
     /**
-     * Saves the wordFrequencyMap in a txt file.
+     * Saves the first 50 entries of wordFrequencyMap in a txt file.
      *
      * @param fileName the name of the file, e.g. "wordFrequencyMap.txt"
      * @throws IOException If an I/O error occurs.
      */
     public void saveOnTxt(String fileName) throws IOException {
-        IO.writeFile(BASE_PATH + fileName, getWordFrequencyReport());
+        IO.writeFile(BASE_PATH + fileName, getWordFrequencyReport(50));
     }
 }
