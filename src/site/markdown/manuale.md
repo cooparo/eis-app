@@ -20,15 +20,15 @@ Assicurati di avere installato:
 - [JDK 8](https://www.oracle.com/java/technologies/downloads/)
 
 ### Installazione
-1. Download and extract the .zip
-2. Enter the project folder `/eis-app`
-3. Build the project with
+1. Scarica e estrai il file in formato zip
+2. Entra nella cartella del progetto `/source_code`
+3. Compila il progetto con
 
 ```bash
 mvn package
 ```
 
-1. Run the app with
+4. Avvia l'app con
 
 ```bash
 java -jar target/eis-app-*-jar-with-dependencies.jar [options]
