@@ -24,13 +24,13 @@ Assicurati di avere installato:
 2. Enter the project folder `/eis-app`
 3. Build the project with
 
-```java
+```bash
 mvn package
 ```
 
 1. Run the app with
 
-```java
+```bash
 java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 ```
 
@@ -41,20 +41,20 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 1. classe **ObjectMapper**:
     - **readValue(content, type)**: Questa funzione viene utilizzata per deserializzare un oggetto da una stringa nel formato specificato. La stringa content viene convertita nell'oggetto del tipo specificato (type).
     
-    ```jsx
+    ```java
     return mapper.readValue(content, type); //nella della classe Marshalling
     ```
     
     - **writeValueAsString(object)**: Questa funzione viene utilizzata per serializzare un oggetto in una stringa JSON.
     
-    ```jsx
+    ```java
     return mapper.writeValueAsString(object); //nella classe Marshalling
     ```
     
 2. classe **SequenceWriter:**
     - **write(element)**: Questa funzione viene utilizzata per scrivere un elemento nella sequenza di output durante la serializzazione.
     
-    ```jsx
+    ```java
     for (Object element : arrayList) { //nella classe Marshalling
         seqW.write(element);
     }
@@ -63,7 +63,7 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 3. **CsvMapper**:
     - **readerFor((Class<?>)baseType).with(content).readAll()**: Questa sequenza di funzioni viene utilizzata per deserializzare dati CSV. Legge i valori CSV dalla stringa ‘content’ utilizzando il tipo di base specificando (‘baseType’) e lo schema dell’intestazione (‘headerSchema’).
     
-    ```jsx
+    ```java
     return (R) mapper.readerFor(((Class<?>) baseType)) //nelle classe Marshalling
             .with(headerSchema)
             .readValues(content).readAll();
@@ -72,14 +72,14 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 4. classe **XmlMapper**:
     - Utilizzato nel metodo **getMapper(Format f)** per ottenere **ObjectMapper** configurato per il formato XML.
     
-    ```jsx
+    ```java
     return new XmlMapper(); //nella classe Mashalling
     ```
     
 5. Classe **JavaTimeModule**:
     - Viene utilizzata per registrare il modulo **JavaTimeModule** nell’ **ObjectMapper**. Questo modulo gestisce la serializzazione e la deserializzazione di oggetti temporali, come nel nostro caso le date.
     
-    ```jsx
+    ```java
     mapper.registerModule(new JavaTimeModule()); //nella classe Mashalling
     ```
     
@@ -95,30 +95,30 @@ java -jar target/eis-app-*-jar-with-dependencies.jar [options]
     
 2. **@BeforeEach**: Questa annotazione viene utilizzata per marcare un metodo all’interno di una classe di test come metodo di inizializzazione. Il metodo annotato con @BeforeEach viene eseguito prima di ogni metodo di test all’interno della classe.
     
-    ```jsx
+    ```java
     @BeforeEach //nella classe TheGuardianAdapterTest
     ```
     
 3. classe **Assertions:**
     - **assertEquals():** Questo metodo viene utilizzato per verificare che un valore atteso sia uguale a un valore ottenuto. Viene passato il valore atteso come primo argomento e il valore ottenuto come secondo argomento. Se i valori sono diversi, il test fallisce e viene generata un’asserzione fallita.
         
-        ```jsx
+        ```java
         Assertions.assertEquals("123456", adapter.getId()); //nella classe NewYorkTimesAdapterTest
         ```
         
-        ```jsx
+        ```java
         Assertions.assertEquals("Sample Article Title", adapter.getTitle());//nella classe NewYorkTimesAdapterTest
         ```
         
-        ```jsx
+        ```java
         Assertions.assertEquals("Sample article body content", adapter.getBody()); //nella classe NewYorkTimesAdapterTest
         ```
         
-        ```jsx
+        ```java
         assertEquals(expectedTitle, actualTitle); //nella classe TheGuardianAdapterTest
         ```
         
-        ```jsx
+        ```java
         assertEquals(expectedBody, actualBody); //nella 54esima riga della classe TheGuardianAdapterTest
         ```
         
@@ -173,19 +173,19 @@ Qui trovi la guida su come aggiungere ulteriori testate giornalistiche al softwa
 3. L’Adapter deve (NOTA: gli esempi di codice si riferiscono alla classe NYTArticleAdapter):
     - Implementare l’interfaccia `it.unipd.dei.eis.interfaces.IArticle`
     
-    ```jsx
+    ```java
     public class NYTArticleAdapter implements it.unipd.dei.eis.interfaces.IArticle{}
     ```
     
     - Essere salvato in un attributo interno
     
-    ```jsx
+    ```java
     private final NYTArticle article;
     ```
     
     - Possedere un costruttore
     
-    ```jsx
+    ```java
     NYTArticleAdapter(NYTArticle article) {
             this.article = article;
         }
@@ -219,7 +219,7 @@ Qui trovi la guida su come aggiungere ulteriori fonti al software.
     
     - In questa classe dobbiamo aggiornare la funzione ‘getMapper(FileFormat f)’ aggiungendo allo switch il case con il nuovo formato che si desidera aggiungere:
     
-    ```jsx
+    ```java
     switch (f) {
                 case XML:
                     return new XmlMapper();
