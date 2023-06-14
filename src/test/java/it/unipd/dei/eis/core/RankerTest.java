@@ -55,17 +55,6 @@ public class RankerTest {
             assertNotNull(results);
             assertTrue(results.get("bitcoin") > 80);
         }
-
-//        @Test
-//        void rankTest1000Articles() {
-//            setUp(STORAGE_TEST_PATH_1000_ARTICLES);
-//            Map<String, Integer> results = ranker.rank();
-//
-////            System.out.println("bitcoin: " + results.get("bitcoin"));
-//
-//            assertNotNull(results);
-//            assertTrue(results.get("bitcoin") > 800);
-//        }
     }
 
 
