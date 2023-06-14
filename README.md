@@ -1,23 +1,18 @@
 # eis-app
 
 ## Pre-requisites
-
 You have to install:
 - [Maven](https://maven.apache.org/) 
 - [JDK 8](https://www.oracle.com/java/technologies/downloads/)
 
 ## Usage
-
-Build the project with
-
+1. Download and extract the .zip
+2. Enter the project folder ``/eis-app``
+3. Build the project with
 ```bash
 mvn package 
 ```
-
-Run the jar file with for help
-
+4. Run the app with
 ```bash 
-java -jar target/eis-app-${project.version}.jar --help
+java -jar target/eis-app-*-jar-with-dependencies.jar [options]
 ```
-
-

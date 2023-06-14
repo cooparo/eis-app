@@ -6,7 +6,7 @@
 
     <groupId>it.unipd.dei.eis</groupId>
     <artifactId>eis-app</artifactId>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.4-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -189,14 +189,6 @@
 
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>Github</id>
-            <name>GitHub cooparo Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/cooparo/eis-app</url>
-        </repository>
-    </distributionManagement>
 
     <reporting>
         <plugins>
