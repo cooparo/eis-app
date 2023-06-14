@@ -17,7 +17,7 @@ mvn package
 Run the jar file with for help
 
 ```bash 
-java -jar target/eis-app-${project.version}.jar --help
+java -jar eis-app-${project.version}.jar --help
 ```
 
 
