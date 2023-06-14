@@ -86,7 +86,7 @@ public class App {
                 } else if (cmd.hasOption("p")) {
                     downloader.simulateDownload(cmd.getOptionValue("n"), cmd.getOptionValue("p"));
                 } else {
-                    downloader.download("TheGuardian", "pizza");
+                    downloader.download("TheGuardian", "nuclear power");
                 }
             }
             if (cmd.hasOption("r")) {
