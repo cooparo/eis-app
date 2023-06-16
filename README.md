@@ -8,7 +8,8 @@ You have to install:
 ## Usage
 1. Download and extract the .zip
 2. Enter the project folder ``/eis-app``
-3. Build the project with
+3. Add file named ``env`` with inside ``THE_GUARDIAN_API_KEY="your_api"``, in the ``Resources`` directory (both /test/resources and /main/resources)
+4. Build the project with
 ```bash
 mvn package 
 ```
