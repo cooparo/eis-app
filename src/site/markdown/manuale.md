@@ -21,14 +21,16 @@ Assicurati di avere installato:
 
 ### Installazione
 1. Scarica e estrai il file in formato zip
-2. Entra nella cartella del progetto `/source_code`
-3. Compila il progetto con
+2. Entra nella cartella del progetto `eis-app`
+3. Crea un file `.env` in `src/main/resources`
+4. Se hai intenzione di usare la testata giornalistica *The Guardian*, aggiungi `THE_GUARDIAN_API_KEY=key` nel file `.env`, sostituendo *key* con la tua chiave
+5. Compila il progetto con
 
 ```bash
 mvn package
 ```
 
-4. Avvia l'app con
+6. Avvia l'app con
 
 ```bash
 java -jar target/eis-app-*-jar-with-dependencies.jar [options]
