@@ -8,7 +8,7 @@ You have to install:
 ## Usage
 1. Download and extract the .zip
 2. Enter the project folder `eis-app`
-3. Create a `.env` file in `src/main/resources`
+3. Create a `env` file in `src/main/resources`
 4. If you plan to use *The Guardian* newspaper, append `THE_GUARDIAN_API_KEY=key` in `.env` file, replacing *key* with your key
 5. Build the project with
 ```bash
